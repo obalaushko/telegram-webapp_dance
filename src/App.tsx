@@ -38,7 +38,7 @@ const App = () => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(data),
+				body: data,
 			})
         });
     };
