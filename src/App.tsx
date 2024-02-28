@@ -1,19 +1,45 @@
+import { useCallback, useEffect } from 'react';
 import { useTelegram } from './hooks/useTelegram.tsx';
 
 import './style/main.scss';
 
 const App = () => {
-    const { tg, user, onToggleButton } = useTelegram();
+    const { tg, user, onToggleButton, quaryId } = useTelegram();
+    // const [userData, setUserData] = useState(user);
+
+    const onSendData = useCallback(() => {
+        const data = {
+            user: user,
+			quaryId
+        };
+
+        fetch('https://2aeb-176-39-53-116.ngrok-free.app/web-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+    }, [user, quaryId]);
+
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', onSendData);
+
+        return () => {
+            tg.offEvent('mainButtonClicked', onSendData);
+        };
+    }, [onSendData, tg]);
 
     const onShowQrScanner = () => {
         tg.showScanQrPopup({ text: 'Scan QR code' }, (data) => {
-			console.log(data);
-		});
+            console.log(data);
+        });
     };
 
-	const onHideQrScanner = () => {
-		tg.closeScanQrPopup();
-	}
+    const onHideQrScanner = () => {
+        tg.closeScanQrPopup();
+    };
+
     return (
         <div className="main">
             <header>Test app @{user?.username}</header>

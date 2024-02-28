@@ -5,10 +5,13 @@ export function useTelegram() {
         tg.close();
     };
 
+	
+
     const onToggleButton = () => {
         if (tg.MainButton.isVisible) {
             tg.MainButton.hide();
         } else {
+			tg.MainButton.setText('Відправити')
             tg.MainButton.show();
         }
     };
@@ -18,5 +21,6 @@ export function useTelegram() {
         user: tg.initDataUnsafe.user,
         onClose,
         onToggleButton,
+		quaryId: tg.initDataUnsafe.query_id
     };
 }
