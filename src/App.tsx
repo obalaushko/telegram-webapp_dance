@@ -13,7 +13,7 @@ const App = () => {
 			quaryId
         };
 
-        fetch('https://2aeb-176-39-53-116.ngrok-free.app/web-data', {
+        fetch('https://c288-176-39-53-116.ngrok-free.app/web-data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ const App = () => {
 
     const onShowQrScanner = () => {
         tg.showScanQrPopup({ text: 'Scan QR code' }, (data) => {
-            console.log(data);
+            console.log(data); // send log to server api (/logs)
         });
     };
 
