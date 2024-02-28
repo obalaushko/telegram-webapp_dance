@@ -10,7 +10,7 @@ const App = () => {
     const onSendData = useCallback(() => {
         const data = {
             user: user,
-			quaryId
+            quaryId,
         };
 
         fetch('https://c288-176-39-53-116.ngrok-free.app/web-data', {
@@ -31,15 +31,14 @@ const App = () => {
     }, [onSendData, tg]);
 
     const onShowQrScanner = () => {
-        tg.showScanQrPopup({ text: 'Scan QR code' }, (data) => {
-            console.log(data); // send log to server api (/logs)
-			fetch('https://c288-176-39-53-116.ngrok-free.app/logs', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: data,
-			})
+        tg.showScanQrPopup({ text: 'Scan QR code' }, (string) => {
+            fetch('https://c288-176-39-53-116.ngrok-free.app/logs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ log: string }),
+            });
         });
     };
 
