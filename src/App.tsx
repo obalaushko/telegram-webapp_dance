@@ -7,7 +7,7 @@ import { ListUsers } from './components/ListUsers.tsx';
 import { sendLogs } from './utils/utils.ts';
 
 // https://8107-176-39-53-116.ngrok-free.app/
-// https://telegram-webapp-qrscan.netlify.app/
+// heroku adress
 
 const URL = 'https://8107-176-39-53-116.ngrok-free.app';
 const App = () => {
@@ -24,6 +24,7 @@ const App = () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
             try {
                 const data = JSON.parse(string);
+                await sendLogs(string);
 
                 if (data) {
                     const { id, fullName, username } = data;
