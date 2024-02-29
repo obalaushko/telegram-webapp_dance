@@ -18,9 +18,9 @@ const App = () => {
 
     const onShowQrScanner = useCallback(async () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
+            await sendLogs(URL, '[string] ' + string);
             try {
                 const data = JSON.parse(string);
-                await sendLogs(URL, '[string] ' + string);
 
                 if (data) {
                     const { id, fullName, username } = data;
