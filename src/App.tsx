@@ -20,36 +20,43 @@ const App = () => {
         { id: 3, fullName: 'Danial' },
     ]);
 
-    const onShowQrScanner = useCallback(() => {
-        showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
-            try {
-                const data = JSON.parse(string);
-                await sendLogs(URL, string);
-                alert(string);
+    const onShowQrScanner = useCallback(async () => {
+        const data = showScanQrPopup(
+            { text: 'Скануйте QR своїх учнів' },
+            async (string) => {
+                try {
+                    const data = JSON.parse(string);
+                    await sendLogs(URL, string);
+                    alert(string);
 
-                if (data) {
-                    const { id, fullName, username } = data;
+                    if (data) {
+                        const { id, fullName, username } = data;
 
-                    if (id && fullName) {
-                        setUserList((prev) => [
-                            ...prev,
-                            { id: id, fullName, username },
-                        ]);
-                    } else {
-                        onHideQrScanner();
+                        if (id && fullName) {
+                            setUserList((prev) => [
+                                ...prev,
+                                { id: id, fullName, username },
+                            ]);
+                        } else {
+                            onHideQrScanner();
+                        }
                     }
+                    await sendLogs(URL, JSON.stringify(userList));
+                } catch (error) {
+                    console.error(error);
                 }
-                await sendLogs(URL, JSON.stringify(userList));
-            } catch (error) {
-                console.error(error);
             }
-        });
+        );
+        await sendLogs(URL, JSON.stringify(data));
     }, [showScanQrPopup, onHideQrScanner, userList]);
 
-    const onRemoveUser = useCallback(async (id: number) => {
-        setUserList((prev) => prev.filter((user) => user.id !== id));
-        await sendLogs(URL, JSON.stringify(userList));
-    }, [userList]);
+    const onRemoveUser = useCallback(
+        async (id: number) => {
+            setUserList((prev) => prev.filter((user) => user.id !== id));
+            await sendLogs(URL, JSON.stringify(userList));
+        },
+        [userList]
+    );
 
     useEffect(() => {
         if (!userList.length) {
