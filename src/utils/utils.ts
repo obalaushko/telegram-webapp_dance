@@ -1,6 +1,6 @@
-export const sendLogs = async (log: string) => {
+export const sendLogs = async (url: string, log: string) => {
     try {
-        fetch(`${URL}/logs`, {
+        fetch(`${url}/logs`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

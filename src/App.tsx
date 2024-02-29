@@ -24,7 +24,7 @@ const App = () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
             try {
                 const data = JSON.parse(string);
-                await sendLogs(string);
+                await sendLogs(URL, string);
 
                 if (data) {
                     const { id, fullName, username } = data;
@@ -38,7 +38,7 @@ const App = () => {
                         onHideQrScanner();
                     }
                 }
-                await sendLogs(JSON.stringify(userList));
+                await sendLogs(URL, JSON.stringify(userList));
             } catch (error) {
                 console.error(error);
             }
