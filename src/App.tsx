@@ -105,7 +105,7 @@ const App = () => {
     return (
         <div className="main">
             <header>
-                <span>Сканер абониментів</span>
+                <span>Сканер абонементів</span>
             </header>
 
             <div className="button__container">

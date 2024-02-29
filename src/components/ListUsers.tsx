@@ -10,7 +10,7 @@ interface ListUsersProps {
 export const ListUsers: FC<ListUsersProps> = ({ users, onRemoveUser }) => {
     return (
         <div className="userlist">
-            {users.length > 0 && <h3>Відскановані абонименти</h3>}
+            {users.length > 0 && <h3>Відскановані абонементи</h3>}
             <ul className="list">
                 {users.length > 0 &&
                     users.map(({ userId: id, fullName, username }) => (
