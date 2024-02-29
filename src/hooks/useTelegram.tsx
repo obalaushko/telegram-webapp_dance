@@ -5,15 +5,17 @@ export function useTelegram() {
         tg.close();
     };
 
-	
-
-    const onToggleButton = () => {
-        if (tg.MainButton.isVisible) {
-            tg.MainButton.hide();
-        } else {
-			tg.MainButton.setText('Відправити')
+    const onToggleButton = (show: boolean) => {
+        if (show) {
+            tg.MainButton.setText('ВІДПРАВИТИ');
             tg.MainButton.show();
+        } else {
+            tg.MainButton.hide();
         }
+    };
+
+    const onHideQrScanner = () => {
+        tg.closeScanQrPopup();
     };
 
     return {
@@ -21,6 +23,8 @@ export function useTelegram() {
         user: tg.initDataUnsafe.user,
         onClose,
         onToggleButton,
-		quaryId: tg.initDataUnsafe.query_id
+        quaryId: tg.initDataUnsafe.query_id,
+        onHideQrScanner,
+        showScanQrPopup: tg.showScanQrPopup,
     };
 }

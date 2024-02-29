@@ -1,26 +1,81 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTelegram } from './hooks/useTelegram.tsx';
+import scannerIcon from './assets/scanner.svg';
 
 import './style/main.scss';
+import { ListUsers } from './components/ListUsers.tsx';
+import { sendLogs } from './utils/utils.ts';
 
+// https://8107-176-39-53-116.ngrok-free.app/
+// https://telegram-webapp-qrscan.netlify.app/
+
+const URL = 'https://telegram-webapp-qrscan.netlify.app';
 const App = () => {
-    const { tg, user, onToggleButton, quaryId } = useTelegram();
-    // const [userData, setUserData] = useState(user);
+    const { tg, showScanQrPopup, onHideQrScanner, onToggleButton, quaryId } =
+        useTelegram();
 
-    const onSendData = useCallback(() => {
+    const [userList, setUserList] = useState([
+        { id: 1, fullName: 'Іванов Іван' },
+        { id: 2, fullName: 'Stepan', username: 'stepan123' },
+        { id: 3, fullName: 'Danial' },
+    ]);
+
+    const onShowQrScanner = useCallback(() => {
+        showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
+            try {
+                const data = JSON.parse(string);
+
+                if (data) {
+                    const { id, fullName, username } = data;
+
+                    if (id && fullName) {
+                        setUserList((prev) => [
+                            ...prev,
+                            { id: id, fullName, username },
+                        ]);
+                    } else {
+                        onHideQrScanner();
+                    }
+                }
+                await sendLogs(JSON.stringify(userList));
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }, [showScanQrPopup, onHideQrScanner, userList]);
+
+    useEffect(() => {
+        if (!userList.length) {
+            onShowQrScanner();
+        }
+    }, [userList, onShowQrScanner]);
+
+    useEffect(() => {
+        if (userList.length) {
+            onToggleButton(true);
+        } else {
+            onToggleButton(false);
+        }
+    }, [userList, onToggleButton]);
+
+    const onSendData = useCallback(async () => {
         const data = {
-            user: user,
+            userIds: userList.map((user) => user.id),
             quaryId,
         };
 
-        fetch('https://c288-176-39-53-116.ngrok-free.app/web-data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-    }, [user, quaryId]);
+        try {
+            await fetch(`${URL}/web-data`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }, [userList, quaryId]);
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData);
@@ -30,29 +85,20 @@ const App = () => {
         };
     }, [onSendData, tg]);
 
-    const onShowQrScanner = () => {
-        tg.showScanQrPopup({ text: 'Scan QR code' }, (string) => {
-            fetch('https://c288-176-39-53-116.ngrok-free.app/logs', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ log: string }),
-            });
-        });
-    };
-
-    const onHideQrScanner = () => {
-        tg.closeScanQrPopup();
-    };
-
     return (
         <div className="main">
-            <header>Test app @{user?.username}</header>
-            <div>
-                <button onClick={onToggleButton}>Toggle</button>
-                <button onClick={onShowQrScanner}>Show scan</button>
-                <button onClick={onHideQrScanner}>Hide scan</button>
+            <header>
+                <span>Сканер абониментів</span>
+            </header>
+            <ListUsers users={userList} />
+            <div className="button__container">
+                <button
+                    className="button button__scanner"
+                    onClick={onShowQrScanner}
+                >
+                    <span>Сканувати</span>
+                    <img src={scannerIcon} alt="Scanner" />
+                </button>
             </div>
         </div>
     );
