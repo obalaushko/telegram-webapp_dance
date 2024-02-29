@@ -14,11 +14,7 @@ const App = () => {
     const { tg, showScanQrPopup, onHideQrScanner, onToggleButton, quaryId } =
         useTelegram();
 
-    const [userList, setUserList] = useState<User[]>([
-        { userId: 1, fullName: 'test' },
-        { userId: 2, fullName: 'test2' },
-        { userId: 3, fullName: 'test3' },
-    ]);
+    const [userList, setUserList] = useState<User[]>([]);
 
     const onShowQrScanner = useCallback(async () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
@@ -33,19 +29,16 @@ const App = () => {
                     if (userId && fullName) {
                         setUserList((prev) => {
                             // Check if user already exists
-                            if (prev.some(user => user.userId === userId)) {
-                                alert('User already exists');
+                            if (prev.some((user) => user.userId === userId)) {
+                                alert('Учень вже сканував QR-код.');
                                 return prev;
                             }
 
                             // Add user if it doesn't exist
-                            return [
-                                ...prev,
-                                { userId, fullName, username },
-                            ];
+                            return [...prev, { userId, fullName, username }];
                         });
-                        alert('User added');
                     } else {
+                        alert('Цей QR-код не містить необхідних даних.');
                         onHideQrScanner();
                     }
                 }
