@@ -25,6 +25,7 @@ const App = () => {
             try {
                 const data = JSON.parse(string);
                 await sendLogs(URL, string);
+                alert(string);
 
                 if (data) {
                     const { id, fullName, username } = data;
