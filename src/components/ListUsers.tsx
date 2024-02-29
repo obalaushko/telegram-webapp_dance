@@ -2,14 +2,14 @@ import { FC } from 'react';
 import deleteIcon from '../assets/delete.svg';
 
 export interface User {
-    id: number;
+    userId: number;
     fullName: string;
     username?: string;
 }
 
 interface ListUsersProps {
     users: User[];
-    onRemoveUser: (id: number) => void;
+    onRemoveUser: (userId: number) => void;
 }
 
 export const ListUsers: FC<ListUsersProps> = ({ users, onRemoveUser }) => {
@@ -18,7 +18,7 @@ export const ListUsers: FC<ListUsersProps> = ({ users, onRemoveUser }) => {
             {users.length > 0 && <h3>Відскановані абонименти</h3>}
             <ul className="list">
                 {users.length > 0 &&
-                    users.map(({ id, fullName, username }) => (
+                    users.map(({ userId: id, fullName, username }) => (
                         <li key={id}>
                             <span>
                                 {fullName} {username && `(@${username})`}

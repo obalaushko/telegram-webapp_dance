@@ -18,17 +18,18 @@ const App = () => {
 
     const onShowQrScanner = useCallback(async () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
-            await sendLogs(URL, '[string] ' + string);
             try {
+                await sendLogs(URL, '[string] ' + string);
+
                 const data = JSON.parse(string);
 
                 if (data) {
-                    const { id, fullName, username } = data;
+                    const { userId, fullName, username } = data;
 
-                    if (id && fullName) {
+                    if (userId && fullName) {
                         setUserList((prev) => [
                             ...prev,
-                            { id, fullName, username },
+                            { userId, fullName, username },
                         ]);
                         onHideQrScanner();
                     } else {
@@ -44,7 +45,7 @@ const App = () => {
 
     const onRemoveUser = useCallback(
         async (id: number) => {
-            setUserList((prev) => prev.filter((user) => user.id !== id));
+            setUserList((prev) => prev.filter((user) => user.userId !== id));
             await sendLogs(URL, JSON.stringify(userList));
         },
         [userList]
@@ -66,7 +67,7 @@ const App = () => {
 
     const onSendData = useCallback(async () => {
         const data = {
-            userIds: userList.map((user) => user.id),
+            userIds: userList.map((user) => user.userId),
             quaryId,
         };
 
