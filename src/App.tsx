@@ -3,7 +3,7 @@ import { useTelegram } from './hooks/useTelegram.tsx';
 import scannerIcon from './assets/scanner.svg';
 
 import './style/main.scss';
-import { ListUsers } from './components/ListUsers.tsx';
+import { ListUsers, User } from './components/ListUsers.tsx';
 import { sendLogs } from './utils/utils.ts';
 
 // https://8107-176-39-53-116.ngrok-free.app/
@@ -14,11 +14,7 @@ const App = () => {
     const { tg, showScanQrPopup, onHideQrScanner, onToggleButton, quaryId } =
         useTelegram();
 
-    const [userList, setUserList] = useState([
-        { id: 1, fullName: 'Іванов Іван' },
-        { id: 2, fullName: 'Stepan', username: 'stepan123' },
-        { id: 3, fullName: 'Danial' },
-    ]);
+    const [userList, setUserList] = useState<User[]>([]);
 
     const onShowQrScanner = useCallback(async () => {
         const data = showScanQrPopup(
@@ -26,7 +22,7 @@ const App = () => {
             async (string) => {
                 try {
                     const data = JSON.parse(string);
-                    await sendLogs(URL, string);
+                    await sendLogs(URL, '[string] ' + string);
                     alert(string);
 
                     if (data) {
@@ -41,13 +37,13 @@ const App = () => {
                             onHideQrScanner();
                         }
                     }
-                    await sendLogs(URL, JSON.stringify(userList));
+                    await sendLogs(URL, '[userList]: ' + JSON.stringify(userList));
                 } catch (error) {
                     console.error(error);
                 }
             }
         );
-        await sendLogs(URL, JSON.stringify(data));
+        await sendLogs(URL, '[await data]: ' + JSON.stringify(data));
     }, [showScanQrPopup, onHideQrScanner, userList]);
 
     const onRemoveUser = useCallback(

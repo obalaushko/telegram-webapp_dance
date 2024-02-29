@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import deleteIcon from '../assets/delete.svg';
 
-interface User {
+export interface User {
     id: number;
     fullName: string;
     username?: string;
