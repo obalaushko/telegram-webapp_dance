@@ -3,24 +3,28 @@ import { useTelegram } from './hooks/useTelegram.tsx';
 import scannerIcon from './assets/scanner.svg';
 
 import './style/main.scss';
-import { ListUsers, User } from './components/ListUsers.tsx';
+import { ListUsers } from './components/ListUsers.tsx';
 import { parseUserData, sendLogs } from './utils/utils.ts';
+import { URL, User } from './constants/index.ts';
 
 // https://8107-176-39-53-116.ngrok-free.app/
 // heroku adress
 
-const URL = 'https://8107-176-39-53-116.ngrok-free.app';
 const App = () => {
-    const { tg, showScanQrPopup, onHideQrScanner, onToggleButton, quaryId } =
-        useTelegram();
+    const {
+        tg,
+        showScanQrPopup,
+        onHideQrScanner,
+        closeWebApp,
+        onToggleButton,
+        quaryId,
+    } = useTelegram();
 
     const [userList, setUserList] = useState<User[]>([]);
 
     const onShowQrScanner = useCallback(async () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
             try {
-                await sendLogs(URL, '[string] ' + string);
-
                 const data = parseUserData(string);
 
                 if (data) {
@@ -43,7 +47,7 @@ const App = () => {
                     }
                 }
             } catch (error) {
-                console.error(error);
+                alert(error);
             }
         });
     }, [showScanQrPopup, onHideQrScanner]);
@@ -84,10 +88,11 @@ const App = () => {
                 },
                 body: JSON.stringify(data),
             });
+            closeWebApp();
         } catch (error) {
-            console.error(error);
+            alert(error);
         }
-    }, [userList, quaryId]);
+    }, [userList, quaryId, closeWebApp]);
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData);

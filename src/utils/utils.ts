@@ -1,4 +1,4 @@
-import { User } from '../components/ListUsers.tsx';
+import { User } from "../constants/index.ts";
 
 export const sendLogs = async (url: string, log: string) => {
     try {
@@ -10,7 +10,7 @@ export const sendLogs = async (url: string, log: string) => {
             body: JSON.stringify({ log }),
         });
     } catch (error) {
-        console.error(error);
+        alert(error);
     }
 };
 

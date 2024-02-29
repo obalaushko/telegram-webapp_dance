@@ -26,5 +26,6 @@ export function useTelegram() {
         quaryId: tg.initDataUnsafe.query_id,
         onHideQrScanner,
         showScanQrPopup: tg.showScanQrPopup,
+        closeWebApp: tg.close
     };
 }

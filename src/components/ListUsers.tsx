@@ -1,11 +1,6 @@
 import { FC } from 'react';
 import deleteIcon from '../assets/delete.svg';
-
-export interface User {
-    userId: number;
-    fullName: string;
-    username?: string;
-}
+import { User } from '../constants/index.ts';
 
 interface ListUsersProps {
     users: User[];
