@@ -17,7 +17,7 @@ const App = () => {
     const [userList, setUserList] = useState<User[]>([]);
 
     const onShowQrScanner = useCallback(async () => {
-        const data = showScanQrPopup(
+        const data = await showScanQrPopup(
             { text: 'Скануйте QR своїх учнів' },
             async (string) => {
                 try {
