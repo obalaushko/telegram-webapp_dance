@@ -46,6 +46,11 @@ const App = () => {
         });
     }, [showScanQrPopup, onHideQrScanner, userList]);
 
+    const onRemoveUser = useCallback(async (id: number) => {
+        setUserList((prev) => prev.filter((user) => user.id !== id));
+        await sendLogs(URL, JSON.stringify(userList));
+    }, [userList]);
+
     useEffect(() => {
         if (!userList.length) {
             onShowQrScanner();
@@ -92,7 +97,7 @@ const App = () => {
             <header>
                 <span>Сканер абониментів</span>
             </header>
-            <ListUsers users={userList} />
+            <ListUsers users={userList} onRemoveUser={onRemoveUser} />
             <div className="button__container">
                 <button
                     className="button button__scanner"
