@@ -9,7 +9,7 @@ import { sendLogs } from './utils/utils.ts';
 // https://8107-176-39-53-116.ngrok-free.app/
 // https://telegram-webapp-qrscan.netlify.app/
 
-const URL = 'https://telegram-webapp-qrscan.netlify.app';
+const URL = 'https://8107-176-39-53-116.ngrok-free.app';
 const App = () => {
     const { tg, showScanQrPopup, onHideQrScanner, onToggleButton, quaryId } =
         useTelegram();
