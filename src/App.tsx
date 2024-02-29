@@ -14,7 +14,11 @@ const App = () => {
     const { tg, showScanQrPopup, onHideQrScanner, onToggleButton, quaryId } =
         useTelegram();
 
-    const [userList, setUserList] = useState<User[]>([]);
+    const [userList, setUserList] = useState<User[]>([
+        { userId: 1, fullName: 'test' },
+        { userId: 2, fullName: 'test2' },
+        { userId: 3, fullName: 'test3' },
+    ]);
 
     const onShowQrScanner = useCallback(async () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
@@ -27,21 +31,29 @@ const App = () => {
                     const { userId, fullName, username } = data;
 
                     if (userId && fullName) {
-                        setUserList((prev) => [
-                            ...prev,
-                            { userId, fullName, username },
-                        ]);
-                        onHideQrScanner();
+                        setUserList((prev) => {
+                            // Check if user already exists
+                            if (prev.some(user => user.userId === userId)) {
+                                alert('User already exists');
+                                return prev;
+                            }
+
+                            // Add user if it doesn't exist
+                            return [
+                                ...prev,
+                                { userId, fullName, username },
+                            ];
+                        });
+                        alert('User added');
                     } else {
                         onHideQrScanner();
                     }
                 }
-                await sendLogs(URL, '[userList]: ' + JSON.stringify(userList));
             } catch (error) {
                 console.error(error);
             }
         });
-    }, [showScanQrPopup, onHideQrScanner, userList]);
+    }, [showScanQrPopup, onHideQrScanner]);
 
     const onRemoveUser = useCallback(
         async (id: number) => {
@@ -97,7 +109,7 @@ const App = () => {
             <header>
                 <span>Сканер абониментів</span>
             </header>
-            <ListUsers users={userList} onRemoveUser={onRemoveUser} />
+
             <div className="button__container">
                 <button
                     className="button button__scanner"
@@ -107,6 +119,7 @@ const App = () => {
                     <img src={scannerIcon} alt="Scanner" />
                 </button>
             </div>
+            <ListUsers users={userList} onRemoveUser={onRemoveUser} />
         </div>
     );
 };
