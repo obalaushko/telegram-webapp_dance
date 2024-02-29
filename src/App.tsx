@@ -4,7 +4,7 @@ import scannerIcon from './assets/scanner.svg';
 
 import './style/main.scss';
 import { ListUsers, User } from './components/ListUsers.tsx';
-import { sendLogs } from './utils/utils.ts';
+import { parseUserData, sendLogs } from './utils/utils.ts';
 
 // https://8107-176-39-53-116.ngrok-free.app/
 // heroku adress
@@ -21,7 +21,7 @@ const App = () => {
             try {
                 await sendLogs(URL, '[string] ' + string);
 
-                const data = JSON.parse(string);
+                const data = parseUserData(string);
 
                 if (data) {
                     const { userId, fullName, username } = data;
