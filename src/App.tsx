@@ -4,7 +4,7 @@ import scannerIcon from './assets/scanner.svg';
 
 import './style/main.scss';
 import { ListUsers } from './components/ListUsers.tsx';
-import { parseUserData, sendLogs } from './utils/utils.ts';
+import { parseUserData } from './utils/utils.ts';
 import { URL, User } from './constants/index.ts';
 
 // https://8107-176-39-53-116.ngrok-free.app/
@@ -22,6 +22,10 @@ const App = () => {
 
     const [userList, setUserList] = useState<User[]>([]);
 
+    /**
+     * Handles the event when the QR scanner is shown.
+     * @returns {void}
+     */
     const onShowQrScanner = useCallback(async () => {
         showScanQrPopup({ text: 'Скануйте QR своїх учнів' }, async (string) => {
             try {
@@ -52,13 +56,13 @@ const App = () => {
         });
     }, [showScanQrPopup, onHideQrScanner]);
 
-    const onRemoveUser = useCallback(
-        async (id: number) => {
-            setUserList((prev) => prev.filter((user) => user.userId !== id));
-            await sendLogs(URL, JSON.stringify(userList));
-        },
-        [userList]
-    );
+    /**
+     * Removes a user from the user list based on their ID.
+     * @param id - The ID of the user to be removed.
+     */
+    const onRemoveUser = useCallback(async (id: number) => {
+        setUserList((prev) => prev.filter((user) => user.userId !== id));
+    }, []);
 
     useEffect(() => {
         if (!userList.length) {
@@ -74,6 +78,10 @@ const App = () => {
         }
     }, [userList, onToggleButton]);
 
+    /**
+     * Sends data to the server.
+     * @returns {Promise<void>} A promise that resolves when the data is successfully sent.
+     */
     const onSendData = useCallback(async () => {
         const data = {
             userIds: userList.map((user) => user.userId),
