@@ -1,6 +1,6 @@
 const tg = window.Telegram.WebApp;
 
-export function useTelegram() {    
+export function useTelegram() {
     /**
      * Handles the toggle button functionality.
      * @param show - A boolean value indicating whether to show or hide the toggle button.
@@ -21,13 +21,16 @@ export function useTelegram() {
         tg.closeScanQrPopup();
     };
 
+    const checkIsTGUser = tg.initDataUnsafe.user ? true : false;
+
     return {
         tg,
-        user: tg.initDataUnsafe.user,
+        tgUser: tg.initDataUnsafe.user,
         onToggleButton,
         quaryId: tg.initDataUnsafe.query_id,
         onHideQrScanner,
         showScanQrPopup: tg.showScanQrPopup,
-        closeWebApp: tg.close
+        closeWebApp: tg.close,
+        checkIsTGUser: checkIsTGUser,
     };
 }

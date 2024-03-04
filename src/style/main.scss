@@ -8,109 +8,78 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: $text_color;
+    background: $secondary_bg_color;
+    min-height: calc(100vh - 60px);
 
-    .main {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 100vh;
-        background: $secondary_bg_color;
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 25px;
+    }
 
-        header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+    .link {
+        text-decoration: none;
+        color: $link_color;
 
-            span {
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: $header_bg_color;
-                border-top: 1px solid $accent_text_color;
-                color: $text_color;
-                font-size: large;
+    }
+
+    .navbar {
+        margin-top: 60px;
+        padding: 5px 0;
+        background: rgba(0, 0, 0, 0.1);
+        &__list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            &-item {
+                &:not(:last-child) {
+                    margin-right: 1rem;
+                }
             }
         }
 
-        .button {
+        &__link {
+            text-decoration: none;
+            color: $link_color;
+
+            &.active {
+                color: $subtitle_text_color;
+                pointer-events: none;
+            }
+        }
+    }
+
+    header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 60px;
+        width: 100%;
+
+        span {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
             display: flex;
             align-items: center;
-            background: $button_color;
-            color: $button_text_color;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            transition: box-shadow 0.3s ease;
-
-            &__scanner {
-                font-size: large;
-                margin-top: 10px;
-                margin-bottom: 20px;
-
-                span {
-                    height: 24px;
-                }
-
-                img {
-                    width: 1.5rem;
-                    height: 1.5rem;
-                    margin-left: 0.5rem;
-                }
-                &:hover {
-                    box-shadow: 0 2px 10px 0 $subtitle_text_color;
-                }
-            }
-
-            &__container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-top: 80px;
-            }
+            justify-content: center;
+            background: $header_bg_color;
+            border-top: 1px solid $accent_text_color;
+            color: $text_color;
+            font-size: large;
         }
+    }
 
-        .userlist {
-            h3 {
-                color: $section_header_text_color;
-                text-align: center;
-            }
-
-            .list {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-
-                li {
-                    padding: 0 20px 10px;
-                    margin: 0 0 15px 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    border-bottom: 1px solid $hint_color;
-
-                    span {
-                    }
-
-                    .button.remove {
-                        padding: 5px;
-                        background: none;
-
-                        &:hover {
-                            background: $bg_color;
-                        }
-
-                        img {
-                            width: 1.3rem;
-                            height: 1.3rem;
-                        }
-                    }
-                }
-            }
-        }
+    .button {
+        display: flex;
+        align-items: center;
+        background: $button_color;
+        color: $button_text_color;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
     }
 }
