@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import  { FC, useCallback, useEffect, useState } from 'react';
 import apiService from '../api/api.ts';
 import { Navigate } from 'react-router-dom';
 import { routes } from './routes.ts';
@@ -19,7 +19,7 @@ const checkUser = async (userId: number): Promise<boolean> => {
     }
 };
 
-const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
+const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
     const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
     const { tgUser } = useTelegram();
 
@@ -34,11 +34,9 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
     }, [fetchData]);
 
     if (!isAdmin) {
-        // Якщо користувач не є адміном, редірект на 404 або іншу сторінку
         // return <Navigate to={routes.notFound} />;
     }
 
-    // Якщо користувач - адмін, показати дочірні компоненти
     return children;
 };
 
