@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import deleteIcon from '../assets/delete.svg';
-import { User } from '../constants/index.ts';
+import { IUser } from '../constants/index.ts';
+import { IconButton, List, ListItem, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ListUsersProps {
-    users: User[];
+    users: IUser[];
     onRemoveUser: (userId: number) => void;
 }
 
@@ -11,22 +12,25 @@ export const ListUsers: FC<ListUsersProps> = ({ users, onRemoveUser }) => {
     return (
         <div className="userlist">
             {users.length > 0 && <h3>Відскановані абонементи</h3>}
-            <ul className="list">
+            <List className="list">
                 {users.length > 0 &&
                     users.map(({ userId: id, fullName, username }) => (
-                        <li key={id}>
-                            <span>
+                        <ListItem key={id}>
+                            <Typography variant="body1" component="span">
                                 {fullName} {username && `(@${username})`}
-                            </span>
-                            <button
-                                className="button remove"
+                            </Typography>
+
+                            <IconButton
+                                className="remove"
+                                color="error"
+                                aria-label="delete"
                                 onClick={() => onRemoveUser(id)}
                             >
-                                <img src={deleteIcon} alt="Delete icon" />
-                            </button>
-                        </li>
+                                <DeleteIcon />
+                            </IconButton>
+                        </ListItem>
                     ))}
-            </ul>
+            </List>
         </div>
     );
 };

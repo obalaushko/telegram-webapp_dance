@@ -2,14 +2,15 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import '../style/settings.scss';
 import { Link } from 'react-router-dom';
 import { routes } from '../router/routes.ts';
-import { User } from '../constants/index.ts';
+import { IUser } from '../constants/index.ts';
 import apiService from '../api/api.ts';
 import { toast } from 'react-toastify';
 
-import editIcon from '../assets/edit.svg';
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton, List, ListItem } from '@mui/material';
 
 const SettingsPage: FC = () => {
-    const [userList, setUserList] = useState<User[]>([]);
+    const [userList, setUserList] = useState<IUser[]>([]);
     const fetchUsers = useCallback(async () => {
         const response = await apiService.get('users');
 
@@ -27,21 +28,21 @@ const SettingsPage: FC = () => {
     return (
         <div className="settings">
             {userList.length > 0 && (
-                <ul className="settings__list">
-                    {userList.map(({ userId: id, fullName, username }) => (
-                        <li key={id} className="settings__list-item">
-                            <span>
-                                {fullName} {username && `(@${username})`}
-                            </span>
+                <List className="settings__list">
+                    {userList.map(({ userId: id, fullName }) => (
+                        <ListItem key={id} className="settings__list-item">
+                            <span>{fullName}</span>
+                            <IconButton>
                                 <Link
                                     className="settings__link link"
                                     to={routes.settings.user(id)}
                                 >
-                                    <img className='settings__icon' src={editIcon} alt="Edit icon" />
+                                    <EditIcon fontSize="small" />
                                 </Link>
-                        </li>
+                            </IconButton>
+                        </ListItem>
                     ))}
-                </ul>
+                </List>
             )}
         </div>
     );

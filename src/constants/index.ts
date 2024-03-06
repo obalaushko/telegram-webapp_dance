@@ -1,10 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const BOT_URL = import.meta.env.VITE_BOT_URL;
 
-export interface User {
+export interface ISubscription {
+    active: boolean;
+    dateExpired: Date | string;
+    totalLessons: number;
+    usedLessons: number;
+}
+
+export interface IUser {
     userId: number;
-    fullName: string;
+    role?: string;
     username?: string;
+    firstName?: string;
+    subscription?: ISubscription;
+    fullName?: string;
+    approved?: boolean;
+    notifications?: boolean;
+    inviteLink?: string | null;
+}
+
+export interface IWebData {
+    userId: number | undefined;
+    userIds: number[];
+    quaryId: string | undefined;
 }
 
 export type ApiResponse = SuccessResponse | ErrorResponse;

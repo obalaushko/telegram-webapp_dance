@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ApiResponse, BOT_URL } from '../constants/index.ts';
 import { toast } from 'react-toastify';
 
-type RequestData = {
+export type RequestData = {
     userId: number | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;

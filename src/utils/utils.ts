@@ -1,4 +1,4 @@
-import { User } from "../constants/index.ts";
+import { IUser } from "../constants/index.ts";
 
 export const sendLogs = async (url: string, log: string) => {
     try {
@@ -19,11 +19,11 @@ export const sendLogs = async (url: string, log: string) => {
  * @param inputString The string to be parsed.
  * @returns The parsed User object.
  */
-export const parseUserData = (inputString: string): User => {
+export const parseUserData = (inputString: string): IUser => {
     const regex = /([^,:]+):([^,]+)/g;
     const matches = inputString.matchAll(regex);
 
-    const userData: Partial<User> = {};
+    const userData: Partial<IUser> = {};
 
     for (const match of matches) {
         const key = match[1].trim();
@@ -45,5 +45,15 @@ export const parseUserData = (inputString: string): User => {
         }
     }
 
-    return userData as User;
+    return userData as IUser;
+};
+
+/**
+ * Capitalizes the first letter of a given string.
+ * 
+ * @param text - The string to capitalize.
+ * @returns The input string with the first letter capitalized.
+ */
+export const capitalizeFirstLetter = (text: string): string => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
 };

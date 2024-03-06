@@ -1,31 +1,28 @@
-import { FC, useCallback, useEffect, useState } from 'react';
-import { User } from '../constants/index.ts';
-import apiService from '../api/api.ts';
+import { FC, useEffect } from 'react';
+import { IUser } from '../constants/index.ts';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
+import UserForm from '../components/Form/User.form.tsx';
+import { Box, Button, Link, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useQuery } from 'react-query';
+import { fetchUserData } from '../api/services/get.api.ts';
 
 const UserPage: FC = () => {
-    const [user, setUser] = useState<User | null>(null);
-
     const navigate = useNavigate();
     const params = useParams();
 
-    const fetchUserData = useCallback(async (userId: number) => {
-        const response = await apiService.get('user-info', {
-            userId: userId,
-        });
-
-        if (response.ok) {
-            setUser(response.data);
-        } else {
-            toast.error('Не вдалося отримати дані');
+    const { data: user, error } = useQuery<IUser | null, Error>(
+        ['user-info', params.id],
+        () => fetchUserData(Number(params.id)),
+        {
+            enabled: !!params.id,
         }
-    }, []);
+    );
 
     useEffect(() => {
-        if (!params.id) return;
-        fetchUserData(Number(params.id));
-    }, [fetchUserData, params.id]);
+        error && toast.error(error.message);
+    }, [error]);
 
     const handleBack = () => {
         navigate(-1);
@@ -33,15 +30,22 @@ const UserPage: FC = () => {
 
     return (
         <div className="user-info">
-            <button className="button" onClick={handleBack}>
-                Back
-            </button>
-            {user && (
-                <div>
-                    <h3>{user.fullName}</h3>
-                    <p>{user.username}</p>
-                </div>
-            )}
+            <Box>
+                <Button
+                    LinkComponent={Link}
+                    size="small"
+                    onClick={handleBack}
+                    sx={{ minWidth: 'initial', mr: '1rem' }}
+                >
+                    <ArrowBackIcon />
+                </Button>
+                <Typography variant="caption">
+                    {user && user?.username
+                        ? `@${user.username} | ${user.userId}`
+                        : user?.userId}
+                </Typography>
+            </Box>
+            {user && <UserForm userInfo={user} />}
         </div>
     );
 };

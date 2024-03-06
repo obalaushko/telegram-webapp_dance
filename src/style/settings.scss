@@ -8,8 +8,8 @@
         &-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-top: 5px;
+            justify-content: space-between !important;
+            // margin-top: 5px;
             &:not(:last-child) {
                 border-bottom: 1px solid $hint_color;
                 padding-bottom: 3px;

@@ -1,0 +1,48 @@
+.primary-color {
+    color: $text_color;
+}
+
+.primary-bg {
+    background: $bg_color;
+}
+
+.hint-text {
+    color: $hint_color;
+}
+
+.link-text {
+    color: $link_color;
+}
+
+.button {
+    background: $button_color;
+    color: $button_text_color;
+}
+
+.secondary-bg {
+    background: $secondary_bg_color;
+}
+
+.header-bg {
+    background: $header_bg_color;
+}
+
+.accent-text {
+    color: $accent_text_color;
+}
+
+.section-bg {
+    background: $section_bg_color;
+}
+
+.section-header-text {
+    color: $section_header_text_color;
+}
+
+.subtitle-text {
+    color: $subtitle_text_color;
+}
+
+.destructive-text {
+    color: $destructive_text_color;
+}

@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
-import scannerIcon from '../assets/scanner.svg';
 
 import '../style/scanner.scss';
 import { useTelegram } from '../hooks/useTelegram.tsx';
-import { User } from '../constants/index.ts';
+import { IUser } from '../constants/index.ts';
 import { parseUserData } from '../utils/utils.ts';
 import { ListUsers } from '../components/ListUsers.tsx';
 import { toast } from 'react-toastify';
 import apiService from '../api/api.ts';
+import { Fab } from '@mui/material';
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 
 const Scanner = () => {
     const {
@@ -20,7 +21,10 @@ const Scanner = () => {
         tgUser,
     } = useTelegram();
 
-    const [userList, setUserList] = useState<User[]>([]);
+    const [userList, setUserList] = useState<IUser[]>([
+        {userId: 1, fullName: 'Іванов Іван Іванович', username: 'ivanov'},
+        {userId: 2, fullName: 'Іванов Іван Іванович', username: 'ivanov'},
+    ]);
 
     /**
      * Handles the event when the QR scanner is shown.
@@ -106,20 +110,17 @@ const Scanner = () => {
 
         return () => {
             tg.offEvent('mainButtonClicked', onSendData);
+            onToggleButton(false);
         };
-    }, [onSendData, tg]);
+    }, [onSendData, onToggleButton, tg]);
 
     return (
         <div className="scanner">
             <div className="scanner__container">
                 <div className="button__container">
-                    <button
-                        className="button button__scanner"
-                        onClick={onShowQrScanner}
-                    >
-                        <span>Сканувати</span>
-                        <img src={scannerIcon} alt="Scanner" />
-                    </button>
+                    <Fab variant="circular" size='large' color='primary' onClick={onShowQrScanner}>
+                        <QrCodeScannerIcon fontSize='large'  />
+                    </Fab>
                 </div>
                 <ListUsers users={userList} onRemoveUser={onRemoveUser} />
             </div>
