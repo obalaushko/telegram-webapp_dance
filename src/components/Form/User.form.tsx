@@ -1,9 +1,9 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { IUpdateUser, IUser } from '../../constants/index.ts';
 import {
     Box,
-    // Button,
+    Button,
     FormControl,
     FormControlLabel,
     FormHelperText,
@@ -17,7 +17,6 @@ import {
     Typography,
 } from '@mui/material';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
-import { useTelegram } from '../../hooks/useTelegram.tsx';
 import { sectionBgColor, textColor } from '../../theme/theme.ts';
 
 import './userForm.scss';
@@ -29,8 +28,9 @@ moment.locale('uk');
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateUserData } from '../../api/services/post.api.ts';
+import { toast } from 'react-toastify';
 
 type Inputs = {
     fullName: string;
@@ -39,6 +39,7 @@ type Inputs = {
     totalLessons: number;
     usedLessons: number;
     dateExpired: Date | string;
+    active: boolean;
 };
 
 type UserFormProps = {
@@ -47,16 +48,19 @@ type UserFormProps = {
 
 const UserForm: FC<UserFormProps> = ({ userInfo }) => {
     const { userId, fullName, role, notifications, subscription } = userInfo;
-    const { tg, onToggleButton } = useTelegram();
+
+    const queryClient = useQueryClient();
 
     const {
         control,
         watch,
         setValue,
         handleSubmit,
+        reset,
         formState: { errors, isDirty },
     } = useForm<Inputs>({
         defaultValues: {
+            active: subscription?.active,
             fullName: fullName,
             role: role,
             notifications: notifications,
@@ -87,11 +91,12 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
      * Handles the change event for the notifications checkbox.
      * @param event - The change event object.
      */
-    const onChangeNotifications = (
-        event: React.ChangeEvent<HTMLInputElement>
+    const onChangeSwitch = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        fieldName: keyof Inputs
     ) => {
         const value = event.target.checked;
-        setValue('notifications', value, { shouldDirty: true });
+        setValue(fieldName, value, { shouldDirty: true });
     };
 
     /**
@@ -110,12 +115,33 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
 
     const { mutate } = useMutation({
         mutationFn: updateUserData,
+        mutationKey: ['user-info', userId],
+        onSuccess: (newUserData) => {
+            toast.success('Дані успішно оновлено.');
+            queryClient.invalidateQueries(
+                {
+                    queryKey: ['user-info', userId],
+                    refetchType: 'none',
+                },
+                newUserData
+            );
+
+            reset({
+                active: newUserData.subscription?.active,
+                fullName: newUserData.fullName,
+                role: newUserData.role,
+                notifications: newUserData.notifications,
+                totalLessons: newUserData.subscription?.totalLessons || 8,
+                usedLessons: newUserData.subscription?.usedLessons || 0,
+                dateExpired: newUserData.subscription?.dateExpired
+                    ? new Date(newUserData.subscription.dateExpired)
+                    : undefined,
+            });
+        },
     });
 
     const onSubmit: SubmitHandler<Inputs> = useCallback(
         (data) => {
-            console.log(data);
-
             const preparedData: IUpdateUser = {
                 userId: userId,
             };
@@ -127,36 +153,17 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
             });
 
             if (Object.keys(preparedData).length > 1) {
-                console.log('Dirty values: ', preparedData);
                 mutate(preparedData);
             }
         },
         [control, userId, mutate]
     );
 
-    useEffect(() => {
-        if (isDirty) {
-            onToggleButton(true, 'ОНОВИТИ');
-        } else {
-            onToggleButton(false);
-        }
-    }, [onToggleButton, isDirty]);
-
-    useEffect(() => {
-        tg.onEvent('mainButtonClicked', handleSubmit(onSubmit));
-
-        return () => {
-            tg.offEvent('mainButtonClicked', handleSubmit(onSubmit));
-            onToggleButton(false);
-        };
-    }, [onToggleButton, handleSubmit, tg, onSubmit]);
-
     return (
         <div className="user-form">
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
-                sx={{}}
                 noValidate
                 autoComplete="off"
             >
@@ -221,21 +228,45 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                         </FormControl>
                     )}
                 />
-                <Controller
-                    name="notifications"
-                    control={control}
-                    render={({ field }) => (
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    onChange={onChangeNotifications}
-                                    checked={field.value}
-                                />
-                            }
-                            label="Сповіщення"
-                        />
-                    )}
-                />
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Controller
+                        name="notifications"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        onChange={(event) =>
+                                            onChangeSwitch(
+                                                event,
+                                                'notifications'
+                                            )
+                                        }
+                                        checked={field.value}
+                                    />
+                                }
+                                label="Сповіщення"
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="active"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        onChange={(event) =>
+                                            onChangeSwitch(event, 'active')
+                                        }
+                                        checked={field.value}
+                                    />
+                                }
+                                label="Абонемент"
+                            />
+                        )}
+                    />
+                </Box>
                 <Box sx={{ padding: '0 10px' }}>
                     <Controller
                         name="totalLessons"
@@ -261,6 +292,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                                 </Typography>
                                 <Slider
                                     {...field}
+                                    disabled={!watch('active')}
                                     aria-label="Total Lessons"
                                     defaultValue={field.value}
                                     // getAriaValueText={valuetext}
@@ -290,6 +322,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                                 </Typography>
                                 <Slider
                                     {...field}
+                                    disabled={!watch('active')}
                                     aria-label="Used Lessons"
                                     defaultValue={field.value}
                                     // getAriaValueText={valuetext}
@@ -297,7 +330,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                                     step={1}
                                     marks
                                     min={0}
-                                    max={watch('totalLessons')}
+                                    max={watch('totalLessons') || 8}
                                 />
                             </Box>
                         )}
@@ -312,6 +345,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                             >
                                 <DatePicker
                                     {...field}
+                                    disabled={!watch('active')}
                                     className="date-picker"
                                     sx={{
                                         width: '100%',
@@ -327,9 +361,17 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                         )}
                     />
                 </Box>
-                {/* <Button variant="contained" color="primary" type="submit">
-                    Submit
-                </Button> */}
+                <Button
+                    fullWidth
+                    disabled={!isDirty}
+                    sx={{ mt: '1rem' }}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    type="submit"
+                >
+                    Оновити
+                </Button>
             </Box>
         </div>
     );

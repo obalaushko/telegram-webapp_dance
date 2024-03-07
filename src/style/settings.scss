@@ -12,12 +12,15 @@
             // margin-top: 5px;
             &:not(:last-child) {
                 border-bottom: 1px solid $hint_color;
-                padding-bottom: 3px;
             }
         }
     }
     &__link {
-
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: normal;
     }
 
     &__icon {

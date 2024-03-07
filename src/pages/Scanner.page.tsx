@@ -22,9 +22,7 @@ const Scanner = () => {
         tgUser,
     } = useTelegram();
 
-    const [userList, setUserList] = useState<IUser[]>([
-        { userId: 6444310578, fullName: 'Іванов Іван Іванович', username: 'ivanov' }, // ! TMP
-    ]);
+    const [userList, setUserList] = useState<IUser[]>([]);
 
     /**
      * Handles the event when the QR scanner is shown.
@@ -102,14 +100,14 @@ const Scanner = () => {
         mutate(data, {
             onSuccess: () => {
                 toast.success('Дані успішно оновлені.');
+                setUserList([]);
                 setTimeout(() => {
                     closeWebApp();
-                }, 1000);
+                }, 2000);
             },
             onError: (error) => {
                 toast.error(error.message);
             },
-        
         });
     }, [userList, quaryId, closeWebApp, tgUser, mutate]);
 

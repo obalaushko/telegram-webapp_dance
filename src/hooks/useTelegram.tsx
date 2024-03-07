@@ -15,7 +15,7 @@ export function useTelegram() {
             if (!tg.MainButton.isVisible) {
                 tg.MainButton.setText(text ?? 'ВІДПРАВИТИ');
                 tg.MainButton.show();
-            } 
+            }
         } else {
             tg.MainButton.hide();
         }

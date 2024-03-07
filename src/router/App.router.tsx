@@ -8,7 +8,6 @@ import UserPage from '../pages/User.page.tsx';
 import Layout from '../components/Layout/Layout.tsx';
 import AuthChecker from './Admin.router.tsx';
 
-
 const AppRouter = () => {
     return (
         <BrowserRouter>

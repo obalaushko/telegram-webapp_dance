@@ -1,5 +1,5 @@
-import { IUpdateUser, IWebData } from "../../constants/index.ts";
-import apiService from "../api.ts";
+import { IUpdateUser, IWebData } from '../../constants/index.ts';
+import apiService from '../api.ts';
 
 export const sendQrData = async (data: IWebData) => {
     const response = await apiService.post('web-data', data);
@@ -12,11 +12,11 @@ export const sendQrData = async (data: IWebData) => {
 };
 
 export const updateUserData = async (data: IUpdateUser) => {
-    const response = await apiService.post('user-data', data);
+    const response = await apiService.post('user-update-data', data);
 
     if (response.ok) {
         return response.data;
     } else {
         throw new Error('Не вдалося оновити дані');
     }
-}
+};

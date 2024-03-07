@@ -7,7 +7,7 @@ import apiService from '../api/api.ts';
 import { toast } from 'react-toastify';
 
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, List, ListItem } from '@mui/material';
+import { Button, List, ListItem } from '@mui/material';
 
 const SettingsPage: FC = () => {
     const [userList, setUserList] = useState<IUser[]>([]);
@@ -31,15 +31,15 @@ const SettingsPage: FC = () => {
                 <List className="settings__list">
                     {userList.map(({ userId: id, fullName }) => (
                         <ListItem key={id} className="settings__list-item">
-                            <span>{fullName}</span>
-                            <IconButton>
+                            <Button fullWidth>
                                 <Link
                                     className="settings__link link"
                                     to={routes.settings.user(id)}
                                 >
+                                    <span>{fullName}</span>
                                     <EditIcon fontSize="small" />
                                 </Link>
-                            </IconButton>
+                            </Button>
                         </ListItem>
                     ))}
                 </List>

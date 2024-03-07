@@ -6,7 +6,7 @@ export type RequestData = {
     userId: number | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
-}
+};
 
 /**
  * Represents an API service for making HTTP requests.
@@ -31,7 +31,9 @@ class ApiService {
      */
     async get(url: string, data?: RequestData): Promise<ApiResponse> {
         try {
-            const response = await axios.get(`${this.baseUrl}/${url}`, { params: data });
+            const response = await axios.get(`${this.baseUrl}/${url}`, {
+                params: data,
+            });
             return response.data;
         } catch (error) {
             const errorMessage = (error as Error).message;

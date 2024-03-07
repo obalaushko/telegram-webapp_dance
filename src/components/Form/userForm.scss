@@ -3,6 +3,10 @@
     .date-picker {
         .MuiButtonBase-root.MuiIconButton-root {
             color: $accent_text_color;
+
+            &:disabled {
+                color: $hint_color;
+            }
         }
     }
 }

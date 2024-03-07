@@ -1,4 +1,4 @@
-import { IUser } from "../constants/index.ts";
+import { IUser } from '../constants/index.ts';
 
 export const sendLogs = async (url: string, log: string) => {
     try {
@@ -50,7 +50,7 @@ export const parseUserData = (inputString: string): IUser => {
 
 /**
  * Capitalizes the first letter of a given string.
- * 
+ *
  * @param text - The string to capitalize.
  * @returns The input string with the first letter capitalized.
  */
