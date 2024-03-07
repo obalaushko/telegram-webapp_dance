@@ -6,9 +6,10 @@ import { IUser } from '../constants/index.ts';
 import { parseUserData } from '../utils/utils.ts';
 import { ListUsers } from '../components/ListUsers.tsx';
 import { toast } from 'react-toastify';
-import apiService from '../api/api.ts';
 import { Fab } from '@mui/material';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
+import { useMutation } from '@tanstack/react-query';
+import { sendQrData } from '../api/services/post.api.ts';
 
 const Scanner = () => {
     const {
@@ -22,8 +23,7 @@ const Scanner = () => {
     } = useTelegram();
 
     const [userList, setUserList] = useState<IUser[]>([
-        {userId: 1, fullName: 'Іванов Іван Іванович', username: 'ivanov'},
-        {userId: 2, fullName: 'Іванов Іван Іванович', username: 'ivanov'},
+        { userId: 6444310578, fullName: 'Іванов Іван Іванович', username: 'ivanov' }, // ! TMP
     ]);
 
     /**
@@ -83,6 +83,13 @@ const Scanner = () => {
     }, [userList, onToggleButton]);
 
     /**
+     * Sends QR data using the sendQrData mutation.
+     */
+    const { mutate } = useMutation({
+        mutationFn: sendQrData,
+    });
+
+    /**
      * Sends data to the server.
      * @returns {Promise<void>} A promise that resolves when the data is successfully sent.
      */
@@ -92,18 +99,19 @@ const Scanner = () => {
             userIds: userList.map((user) => user.userId),
             quaryId,
         };
-
-        const response = await apiService.post('web-data', data);
-
-        if (response.ok) {
-            toast.success('Дані успішно оновлені.');
-            setTimeout(() => {
-                closeWebApp();
-            }, 1000);
-        } else {
-            toast.error(response.message);
-        }
-    }, [userList, quaryId, closeWebApp, tgUser]);
+        mutate(data, {
+            onSuccess: () => {
+                toast.success('Дані успішно оновлені.');
+                setTimeout(() => {
+                    closeWebApp();
+                }, 1000);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+            },
+        
+        });
+    }, [userList, quaryId, closeWebApp, tgUser, mutate]);
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData);
@@ -118,8 +126,13 @@ const Scanner = () => {
         <div className="scanner">
             <div className="scanner__container">
                 <div className="button__container">
-                    <Fab variant="circular" size='large' color='primary' onClick={onShowQrScanner}>
-                        <QrCodeScannerIcon fontSize='large'  />
+                    <Fab
+                        variant="circular"
+                        size="large"
+                        color="primary"
+                        onClick={onShowQrScanner}
+                    >
+                        <QrCodeScannerIcon fontSize="large" />
                     </Fab>
                 </div>
                 <ListUsers users={userList} onRemoveUser={onRemoveUser} />

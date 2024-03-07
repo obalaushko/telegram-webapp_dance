@@ -59,6 +59,6 @@ class ApiService {
     }
 }
 
-const apiService = new ApiService(BOT_URL);
+const apiService = new ApiService(BOT_URL + '/api');
 
 export default apiService;

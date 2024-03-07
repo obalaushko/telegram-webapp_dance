@@ -1,9 +1,9 @@
 import { FC, useCallback, useEffect } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { IUser } from '../../constants/index.ts';
+import { IUpdateUser, IUser } from '../../constants/index.ts';
 import {
     Box,
-    Button,
+    // Button,
     FormControl,
     FormControlLabel,
     FormHelperText,
@@ -20,7 +20,7 @@ import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import { useTelegram } from '../../hooks/useTelegram.tsx';
 import { sectionBgColor, textColor } from '../../theme/theme.ts';
 
-import './userForm.scss'
+import './userForm.scss';
 
 import moment from 'moment';
 import 'moment/locale/uk';
@@ -29,6 +29,8 @@ moment.locale('uk');
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { useMutation } from '@tanstack/react-query';
+import { updateUserData } from '../../api/services/post.api.ts';
 
 type Inputs = {
     fullName: string;
@@ -106,27 +108,30 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
         }
     };
 
+    const { mutate } = useMutation({
+        mutationFn: updateUserData,
+    });
+
     const onSubmit: SubmitHandler<Inputs> = useCallback(
         (data) => {
             console.log(data);
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const preparedData: { [key: string]: any } = {};
+            const preparedData: IUpdateUser = {
+                userId: userId,
+            };
 
             control._names.mount.forEach((name: string) => {
                 if (control.getFieldState(name as keyof Inputs).isDirty) {
-                    preparedData[name as keyof Inputs] =
-                        data[name as keyof Inputs];
+                    preparedData[name] = data[name as keyof Inputs];
                 }
             });
 
-            if (Object.keys(preparedData).length !== 0) {
-                preparedData['userId'] = userId;
+            if (Object.keys(preparedData).length > 1) {
+                console.log('Dirty values: ', preparedData);
+                mutate(preparedData);
             }
-
-            console.log('Dirty values: ', preparedData);
         },
-        [control, userId]
+        [control, userId, mutate]
     );
 
     useEffect(() => {
@@ -307,7 +312,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                             >
                                 <DatePicker
                                     {...field}
-                                    className='date-picker'
+                                    className="date-picker"
                                     sx={{
                                         width: '100%',
                                     }}
@@ -322,9 +327,9 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                         )}
                     />
                 </Box>
-                <Button variant="contained" color="primary" type="submit">
+                {/* <Button variant="contained" color="primary" type="submit">
                     Submit
-                </Button>
+                </Button> */}
             </Box>
         </div>
     );

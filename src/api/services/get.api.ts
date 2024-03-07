@@ -1,6 +1,7 @@
-import apiService from "../api.ts";
+import { IUser } from '../../constants/index.ts';
+import apiService from '../api.ts';
 
-export const fetchUserData = async (userId: number) => {
+export const fetchUserData = async (userId: number): Promise<IUser> => {
     const response = await apiService.get('user-info', {
         userId: userId,
     });

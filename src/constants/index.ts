@@ -17,7 +17,18 @@ export interface IUser {
     fullName?: string;
     approved?: boolean;
     notifications?: boolean;
-    inviteLink?: string | null;
+}
+
+export interface IUpdateUser {
+    userId: number;
+    role?: string;
+    firstName?: string;
+    fullName?: string;
+    notifications?: boolean;
+    dateExpired?: Date | string;
+    totalLessons?: number;
+    usedLessons?: number;
+    [key: string]: any;
 }
 
 export interface IWebData {
