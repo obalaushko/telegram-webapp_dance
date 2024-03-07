@@ -222,7 +222,6 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                             >
                                 <MenuItem value="admin">Admin</MenuItem>
                                 <MenuItem value="user">User</MenuItem>
-                                <MenuItem value="guest">Guest</MenuItem>
                                 <MenuItem value="inactive">Inactive</MenuItem>
                             </Select>
                         </FormControl>
