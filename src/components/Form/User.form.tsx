@@ -305,7 +305,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                                     }
                                     step={1}
                                     marks
-                                    min={0}
+                                    min={1}
                                     max={16}
                                 />
                             </Box>
