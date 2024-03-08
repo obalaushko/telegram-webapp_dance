@@ -1,0 +1,31 @@
+@import './constants.scss';
+
+.settings {
+    &__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        &-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between !important;
+            // margin-top: 5px;
+            &:not(:last-child) {
+                border-bottom: 1px solid $hint_color;
+            }
+        }
+    }
+    &__link {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: normal;
+    }
+
+    &__icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: 0.5rem;
+    }
+}

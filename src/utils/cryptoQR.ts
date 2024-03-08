@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js';
 
-const key = CryptoJS.enc.Utf8.parse('cryptoQR'); 
+const key = CryptoJS.enc.Utf8.parse('cryptoQR');
 const iv = CryptoJS.enc.Utf8.parse('1234567890123456'); // replace '1234567890123456' with your initialization vector
 
 /**
@@ -10,12 +10,16 @@ const iv = CryptoJS.enc.Utf8.parse('1234567890123456'); // replace '123456789012
  */
 export const encryptQR = (text: string): string | null => {
     try {
-        const encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(text), key, {
-            keySize: 128 / 8,
-            iv: iv,
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7,
-        });
+        const encrypted = CryptoJS.AES.encrypt(
+            CryptoJS.enc.Utf8.parse(text),
+            key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7,
+            }
+        );
         return encrypted.toString();
     } catch (error) {
         console.error(error);
