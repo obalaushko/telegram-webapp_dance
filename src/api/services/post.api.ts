@@ -20,3 +20,12 @@ export const updateUserData = async (data: IUpdateUser) => {
         throw new Error('Не вдалося оновити дані');
     }
 };
+
+export const checkUser = async (userId: number) => {
+    const response = await apiService.post('admin-info', { userId });
+    if (response.ok) {
+        return response.data;
+    } else {
+        throw new Error('Error checking user');
+    }
+};
