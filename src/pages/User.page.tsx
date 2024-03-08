@@ -19,7 +19,7 @@ const UserPage: FC = () => {
     } = useQuery({
         queryKey: ['user-info', Number(params.id)],
         queryFn: () => fetchUserData(Number(params.id)),
-        staleTime: 1000 * 5,
+        staleTime: 1000 * 3,
         enabled: !!params.id,
     });
 
