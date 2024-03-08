@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from 'react';
 import apiService from '../api/api.ts';
-// import { Navigate } from 'react-router-dom';
-// import { routes } from './routes.ts';
+import { Navigate } from 'react-router-dom';
+import { routes } from './routes.ts';
 import { useTelegram } from '../hooks/useTelegram.tsx';
 
 interface AuthCheckerProps {
@@ -34,7 +34,7 @@ const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
     }, [fetchData]);
 
     if (!isAdmin) {
-        // return <Navigate to={routes.notFound} />;
+        return <Navigate to={routes.notFound} />;
     }
 
     return children;

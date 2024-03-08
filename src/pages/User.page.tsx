@@ -6,12 +6,17 @@ import { Box, Button, Link, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { fetchUserData } from '../api/services/get.api.ts';
 import { useQuery } from '@tanstack/react-query';
+import SkeletonUserPage from '../components/Skeleton/SkeletonUserPage.tsx';
 
 const UserPage: FC = () => {
     const navigate = useNavigate();
     const params = useParams();
 
-    const { data: user, error } = useQuery({
+    const {
+        data: user,
+        error,
+        isLoading,
+    } = useQuery({
         queryKey: ['user-info', Number(params.id)],
         queryFn: () => fetchUserData(Number(params.id)),
         staleTime: 1000 * 5,
@@ -28,22 +33,28 @@ const UserPage: FC = () => {
 
     return (
         <div className="user-info">
-            <Box>
-                <Button
-                    LinkComponent={Link}
-                    size="small"
-                    onClick={handleBack}
-                    sx={{ minWidth: 'initial', mr: '1rem' }}
-                >
-                    <ArrowBackIcon />
-                </Button>
-                <Typography variant="caption">
-                    {user && user?.username
-                        ? `@${user.username} | ${user.userId}`
-                        : user?.userId}
-                </Typography>
-            </Box>
-            {user && <UserForm userInfo={user} />}
+            {isLoading ? (
+                <SkeletonUserPage />
+            ) : (
+                <>
+                    <Box>
+                        <Button
+                            LinkComponent={Link}
+                            size="small"
+                            onClick={handleBack}
+                            sx={{ minWidth: 'initial', mr: '1rem' }}
+                        >
+                            <ArrowBackIcon />
+                        </Button>
+                        <Typography variant="caption">
+                            {user && user?.username
+                                ? `@${user.username} | ${user.userId}`
+                                : user?.userId}
+                        </Typography>
+                    </Box>
+                    {user && <UserForm userInfo={user} />}
+                </>
+            )}
         </div>
     );
 };

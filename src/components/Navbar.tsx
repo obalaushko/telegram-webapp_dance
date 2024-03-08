@@ -12,7 +12,7 @@ const Navbar = () => {
                         }
                         to={routes.scanner}
                     >
-                        Scanner
+                        Сканер
                     </NavLink>
                 </li>
                 <li className="navbar__list-item">
@@ -22,7 +22,7 @@ const Navbar = () => {
                         }
                         to={routes.settings.root}
                     >
-                        Settings
+                        Налаштування
                     </NavLink>
                 </li>
                 <li className="navbar__list-item">
@@ -32,7 +32,7 @@ const Navbar = () => {
                         }
                         to={routes.history}
                     >
-                        History
+                        Історія
                     </NavLink>
                 </li>
             </ul>

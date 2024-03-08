@@ -12,3 +12,13 @@ export const fetchUserData = async (userId: number): Promise<IUser> => {
         throw new Error('Не вдалося отримати дані');
     }
 };
+
+export const fetchAllUsers = async (): Promise<IUser[]> => {
+    const response = await apiService.get('users');
+
+    if (response.ok) {
+        return response.data;
+    } else {
+        throw new Error('Не вдалося завантажити список користувачів');
+    }
+};

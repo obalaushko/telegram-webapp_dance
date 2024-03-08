@@ -1,10 +1,12 @@
+import { Box } from '@mui/material';
 import React from 'react';
 
 const NotFoundPage: React.FC = () => {
     return (
         <div className="container">
-            <h1>У доступі відмовлено</h1>
-            <p>Схоже ви потрапили сюди випадково.</p>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <h1>У доступі відмовлено</h1>
+            </Box>
         </div>
     );
 };

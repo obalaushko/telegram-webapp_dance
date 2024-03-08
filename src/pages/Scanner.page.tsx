@@ -11,7 +11,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import { useMutation } from '@tanstack/react-query';
 import { sendQrData } from '../api/services/post.api.ts';
 
-const Scanner = () => {
+const ScannerPage = () => {
     const {
         tg,
         showScanQrPopup,
@@ -139,4 +139,4 @@ const Scanner = () => {
     );
 };
 
-export default Scanner;
+export default ScannerPage;

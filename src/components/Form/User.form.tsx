@@ -280,7 +280,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                                 >
                                     Загальна кількість занять: {field.value}
                                     {field.value !== 8 && (
-                                        <Tooltip title="Оновлена кількість буде використовуватися, доки ви не внесете зміни">
+                                        <Tooltip title="Оновлена кількість буде використовуватися, доки не закінчиться абонемент">
                                             <GppMaybeIcon
                                                 sx={{ ml: '5px' }}
                                                 fontSize="small"
