@@ -1,39 +1,33 @@
-import { FC, useCallback, useEffect, useState } from 'react';
-import apiService from '../api/api.ts';
+import { FC, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { routes } from './routes.ts';
 import { useTelegram } from '../hooks/useTelegram.tsx';
+import { useQuery } from '@tanstack/react-query';
+import { checkUser } from '../api/services/post.api.ts';
+import { toast } from 'react-toastify';
 
 interface AuthCheckerProps {
     children: React.ReactNode;
 }
 
-const checkUser = async (userId: number): Promise<boolean> => {
-    try {
-        const response = await apiService.post('user-info', { userId });
-        if (response.ok) return response.ok;
-        return false;
-    } catch (error) {
-        console.error('Error checking user:', error);
-        return false;
-    }
-};
-
 const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
-    const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
     const { tgUser } = useTelegram();
 
-    const fetchData = useCallback(async () => {
-        if (!tgUser?.id) return;
-        const isAdminUser = await checkUser(tgUser?.id || 0);
-        setIsAdmin(isAdminUser);
-    }, [tgUser?.id]);
+    const {
+        data: admin,
+        isLoading,
+        error,
+    } = useQuery({
+        queryKey: ['admin', tgUser?.id],
+        queryFn: () => checkUser(tgUser?.id || 0),
+        enabled: !!tgUser?.id,
+    });
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        error && toast.error(error.message);
+    }, [error]);
 
-    if (!isAdmin) {
+    if (!isLoading && !admin) {
         return <Navigate to={routes.notFound} />;
     }
 
