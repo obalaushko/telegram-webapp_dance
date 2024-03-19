@@ -20,14 +20,14 @@ export const sendLogs = async (url: string, log: string) => {
  * @returns The parsed User object.
  */
 export const parseUserData = (inputString: string): IUser => {
-    const regex = /([^,:]+):([^,]+)/g;
+    const regex = /([^;:]+):([^;]+)/g;
     const matches = inputString.matchAll(regex);
 
     const userData: Partial<IUser> = {};
 
     for (const match of matches) {
         const key = match[1].trim();
-        const value = match[2].trim();
+        const value = decodeURIComponent(match[2].trim());
 
         switch (key) {
             case 'userId':
