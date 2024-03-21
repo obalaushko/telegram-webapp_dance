@@ -1,12 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import { useTitle } from '@/hooks/useTitle.tsx';
 import Navbar from '../Navbar.tsx';
+import ScrollToTop from '../View/ScrollToTop/ScrollToTop.component.tsx';
 
 const Layout = () => {
     const { title } = useTitle();
 
     return (
         <div className="web-app">
+            <ScrollToTop />
             <header>
                 <span>{title}</span>
             </header>
