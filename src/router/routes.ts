@@ -3,6 +3,7 @@ export const routes = {
     scanner: '/',
     history: '/history',
     notFound: '*',
+    about: '/about',
     settings: {
         root: '/settings',
         userLink: '/settings/user/:id',

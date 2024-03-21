@@ -33,13 +33,17 @@ body {
             display: flex;
             justify-content: center;
             &-item {
+                display: flex;
                 &:not(:last-child) {
-                    margin-right: 1rem;
+                    margin-right: 1.5rem;
                 }
             }
         }
 
         &__link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
             color: $link_color;
 

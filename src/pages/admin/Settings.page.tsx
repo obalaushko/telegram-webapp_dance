@@ -1,14 +1,16 @@
 import { FC, useEffect } from 'react';
-import '../style/settings.scss';
+import '@style/settings.scss';
 import { Link } from 'react-router-dom';
-import { routes } from '../router/routes.ts';
+import { routes } from '../../router/routes.ts';
 
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, List, ListItem } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllUsers } from '../api/services/get.api.ts';
+import { fetchAllUsers } from '../../api/services/get.api.ts';
 import { toast } from 'react-toastify';
-import SkeletonSettingsPage from '../components/Skeleton/SkeletonSettingsPage.tsx';
+import SkeletonSettingsPage from '../../components/Skeleton/SkeletonSettingsPage.tsx';
+import { useTitle } from '@/hooks/useTitle.tsx';
+import { PAGE_TITLE } from '@/constants/index.ts';
 
 const SettingsPage: FC = () => {
     const {
@@ -24,6 +26,12 @@ const SettingsPage: FC = () => {
     useEffect(() => {
         error && toast.error(error.message);
     }, [error]);
+
+    const { setTitle } = useTitle();
+
+    useEffect(() => {
+        setTitle(PAGE_TITLE.settings);
+    }, [setTitle]);
 
     return (
         <div className="settings">

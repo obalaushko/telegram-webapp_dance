@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import '../style/scanner.scss';
-import { useTelegram } from '../hooks/useTelegram.tsx';
-import { IUser } from '../constants/index.ts';
-import { parseUserData } from '../utils/utils.ts';
-import { ListUsers } from '../components/ListUsers.tsx';
+import '@style/scanner.scss';
+import { useTelegram } from '../../hooks/useTelegram.tsx';
+import { parseUserData } from '../../utils/utils.ts';
+import { ListUsers } from '../../components/ListUsers.tsx';
 import { toast } from 'react-toastify';
 import { Fab } from '@mui/material';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import { useMutation } from '@tanstack/react-query';
-import { sendQrData } from '../api/services/post.api.ts';
+import { sendQrData } from '../../api/services/post.api.ts';
+import { IUser } from '@/constants/types.ts';
+import { useTitle } from '@/hooks/useTitle.tsx';
+import { PAGE_TITLE } from '@/constants/index.ts';
 
 const ScannerPage = () => {
     const {
@@ -23,6 +25,11 @@ const ScannerPage = () => {
     } = useTelegram();
 
     const [userList, setUserList] = useState<IUser[]>([]);
+    const { setTitle } = useTitle();
+
+    useEffect(() => {
+        setTitle(PAGE_TITLE.scanner);
+    }, [setTitle]);
 
     /**
      * Handles the event when the QR scanner is shown.

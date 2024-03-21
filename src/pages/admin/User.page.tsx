@@ -1,12 +1,14 @@
 import { FC, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
-import UserForm from '../components/Form/User.form.tsx';
+import UserForm from '../../components/Form/User.form.tsx';
 import { Box, Button, Link, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { fetchUserData } from '../api/services/get.api.ts';
+import { fetchUserData } from '../../api/services/get.api.ts';
 import { useQuery } from '@tanstack/react-query';
-import SkeletonUserPage from '../components/Skeleton/SkeletonUserPage.tsx';
+import SkeletonUserPage from '../../components/Skeleton/SkeletonUserPage.tsx';
+import { useTitle } from '@/hooks/useTitle.tsx';
+import { PAGE_TITLE } from '@/constants/index.ts';
 
 const UserPage: FC = () => {
     const navigate = useNavigate();
@@ -30,6 +32,12 @@ const UserPage: FC = () => {
     const handleBack = () => {
         navigate(-1);
     };
+
+    const { setTitle } = useTitle();
+
+    useEffect(() => {
+        params.id && setTitle(PAGE_TITLE.user(params.id));
+    }, [setTitle, params.id]);
 
     return (
         <div className="user-info">
