@@ -1,5 +1,6 @@
+import { BOT_URL } from '@/constants/index.ts';
+import { ApiResponse } from '@/constants/types.ts';
 import axios from 'axios';
-import { ApiResponse, BOT_URL } from '../constants/index.ts';
 import { toast } from 'react-toastify';
 
 export type RequestData = {

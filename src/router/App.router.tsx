@@ -4,7 +4,7 @@ import { routes } from './routes.ts';
 import AuthChecker from './Admin.router.tsx';
 import { Suspense, lazy } from 'react';
 import LoadingPage from '@/components/Skeleton/LoadingPage.tsx';
-import Layout from '@/components/Layout/Layout.tsx';
+import LayoutAdmin from '@/components/Layout/LayoutAdmin.tsx';
 
 const ScannerPage = lazy(() =>
     delayLoadingPage(import('@pages/admin/Scanner.page.tsx'))
@@ -19,68 +19,64 @@ const NotFoundPage = lazy(() =>
     delayLoadingPage(import('@pages/404.page.tsx'))
 );
 const UserPage = lazy(() => import('@pages/admin/User.page.tsx'));
-const AboutPage = lazy(() => import('@pages/admin/About.page.tsx'));
+const AboutPage = lazy(() =>
+    delayLoadingPage(import('@pages/admin/About.page.tsx'))
+);
 
 const AppRouter = () => {
     return (
         <BrowserRouter>
             <Suspense fallback={<LoadingPage />}>
                 <Routes>
-                    <Route path={routes.scanner} element={<Layout />}>
+                    <Route
+                        path={routes.scanner}
+                        element={
+                            <AuthChecker>
+                                <LayoutAdmin />
+                            </AuthChecker>
+                        }
+                    >
                         <Route
                             path={routes.scanner}
                             index
-                            element={
-                                <AuthChecker>
-                                    <ScannerPage />
-                                </AuthChecker>
-                            }
+                            element={<ScannerPage />}
                         />
                         <Route
                             path={routes.settings.root}
-                            element={
-                                <AuthChecker>
-                                    <SettingsPage />
-                                </AuthChecker>
-                            }
+                            element={<SettingsPage />}
                         />
                         <Route
                             path={routes.settings.userLink}
-                            element={
-                                <AuthChecker>
-                                    <UserPage />
-                                </AuthChecker>
-                            }
+                            element={<UserPage />}
                         />
                         <Route
                             path={routes.history}
-                            element={
-                                <AuthChecker>
-                                    <HistoryPage />
-                                </AuthChecker>
-                            }
+                            element={<HistoryPage />}
                         />
-                        <Route
-                            path={routes.about}
-                            element={
-                                <AuthChecker>
-                                    <AboutPage />
-                                </AuthChecker>
-                            }
-                        />
+                        <Route path={routes.about} element={<AboutPage />} />
                     </Route>
+                    {/* Without Auth */}
                     <Route path={routes.notFound} element={<NotFoundPage />} />
+                    <Route path="/test" element={<AboutPage />} />
                 </Routes>
             </Suspense>
         </BrowserRouter>
     );
 };
 
+/**
+ * Delays the loading of a page component by a specified number of milliseconds.
+ *
+ * @param promise - The promise that resolves to the page component.
+ * @param milliseconds - The number of milliseconds to delay the loading. Default is 500 milliseconds.
+ * @returns A promise that resolves to the page component after the specified delay.
+ */
 function delayLoadingPage(
-    promise: Promise<{ default: React.ComponentType<any> }>
+    promise: Promise<{ default: React.ComponentType<any> }>,
+    milliseconds = 500
 ) {
     return new Promise<{ default: React.ComponentType<any> }>((resolve) => {
-        setTimeout(() => resolve(promise), 500);
+        setTimeout(() => resolve(promise), milliseconds);
     });
 }
 
