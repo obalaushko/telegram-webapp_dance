@@ -8,7 +8,9 @@ export const useTitle = () => {
     }
 
     useEffect(() => {
-        document.title = `${context.title} - Dance bot (TG)`;
+        const title = `${context.title} - Dance bot (TG)`;
+        document.title = title;
+        window.history.pushState({}, title, document.location.pathname);
     }, [context.title]);
 
     return context;

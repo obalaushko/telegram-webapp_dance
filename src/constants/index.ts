@@ -7,4 +7,5 @@ export const PAGE_TITLE = Object.freeze({
     scanner: 'Сканер абонементів',
     about: 'Загальна інформація',
     user: (id: string) => `Користувач ${id}`,
+    notFound: '404',
 });
