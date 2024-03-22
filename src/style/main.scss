@@ -32,6 +32,7 @@ body {
         &--scrolled {
             background: $header_bg_color;
             border-top: 1px solid $accent_text_color;
+            z-index: 100;
         }
         &__list {
             list-style: none;

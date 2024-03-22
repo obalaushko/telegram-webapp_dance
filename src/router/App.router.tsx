@@ -14,7 +14,7 @@ const SettingsPage = lazy(() =>
     delayLoadingPage(import('@pages/admin/Settings.page.tsx'))
 );
 const HistoryPage = lazy(() =>
-    delayLoadingPage(import('@pages/admin/History.page.tsx'))
+    delayLoadingPage(import('@pages/admin/HistoryPage/History.page.tsx'))
 );
 const NotFoundPage = lazy(() =>
     delayLoadingPage(import('@pages/404.page.tsx'))
