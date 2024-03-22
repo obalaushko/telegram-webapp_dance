@@ -17,6 +17,14 @@
     }
 
     &__table-body {
+        tr {
+            &.open {
+                td {
+                    border-color: $accent_text_color;
+                    color: $accent_text_color;
+                }
+            }
+        }
         td {
             color: $text_color;
             padding: 5px;

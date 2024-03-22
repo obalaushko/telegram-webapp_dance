@@ -109,6 +109,13 @@ const HistoryPage: React.FC = () => {
                                                                 sx={{
                                                                     cursor: 'pointer',
                                                                 }}
+                                                                className={
+                                                                    open &&
+                                                                    selectedRow ===
+                                                                        item.timestamp
+                                                                        ? 'open'
+                                                                        : ''
+                                                                }
                                                                 onClick={() => {
                                                                     setSelectedRow(
                                                                         item.timestamp
