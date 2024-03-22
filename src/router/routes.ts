@@ -9,4 +9,9 @@ export const routes = {
         userLink: '/settings/user/:id',
         user: (id: number) => `user/${id}`,
     },
+    user: {
+        root: '/user',
+        about: '/user/about',
+        history: '/user/history',
+    }
 };

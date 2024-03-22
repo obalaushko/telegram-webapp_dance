@@ -3,7 +3,11 @@ import { useTitle } from '@/hooks/useTitle.tsx';
 import Navbar from '../Navbar.tsx';
 import ScrollToTop from '../View/ScrollToTop/ScrollToTop.component.tsx';
 
-const LayoutAdmin = () => {
+interface LayoutAdminProps {
+    // Define any props that the component accepts
+}
+
+const LayoutAdmin: React.FC<LayoutAdminProps> = () => {
     const { title } = useTitle();
 
     return (

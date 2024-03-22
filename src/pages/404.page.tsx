@@ -12,7 +12,7 @@ const NotFoundPage: React.FC = () => {
     return (
         <div className="container">
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <h1>У доступі відмовлено</h1>
+                <h1>404 Сторінку не знайдено.</h1>
             </Box>
         </div>
     );
