@@ -1,13 +1,13 @@
 .history {
     &__accordion {
-        background: $bg_color;
+        background: $header_bg_color;
     }
     &__accordion-summary {
-        background: $bg_color;
+        background: $header_bg_color;
     }
 
     &__table-container {
-        background: $bg_color;
+        background: $header_bg_color;
 
         th {
             color: $section_header_text_color;
