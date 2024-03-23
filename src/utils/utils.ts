@@ -1,4 +1,4 @@
-import { IUser } from '../constants/index.ts';
+import { IUser } from '@/constants/types.ts';
 
 export const sendLogs = async (url: string, log: string) => {
     try {

@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { IUser } from '../constants/index.ts';
 import { IconButton, List, ListItem, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { IUser } from '@/constants/types.ts';
 
 interface ListUsersProps {
     users: IUser[];
