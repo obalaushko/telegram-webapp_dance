@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import SkeletonUserPage from '../../components/Skeleton/SkeletonUserPage.tsx';
 import { useTitle } from '@/hooks/useTitle.tsx';
 import { PAGE_TITLE } from '@/constants/index.ts';
+import { routes } from '@/router/routes.ts';
 
 const UserPage: FC = () => {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ const UserPage: FC = () => {
     }, [error]);
 
     const handleBack = () => {
-        navigate(-1);
+        navigate(routes.settings.root);
     };
 
     const { setTitle } = useTitle();

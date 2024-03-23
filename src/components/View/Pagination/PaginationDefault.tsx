@@ -7,17 +7,22 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 interface PaginationDefaultProps {
     totalPages: number;
     page: number;
+    className?: string;
     handlePageChange: (event: React.ChangeEvent<unknown>, page: number) => void;
 }
 
 const PaginationDefault: React.FC<PaginationDefaultProps> = ({
     totalPages,
     page,
+    className,
     handlePageChange,
 }) => {
     return (
         <Stack spacing={2}>
             <Pagination
+                className={className}
+                color='primary'
+                shape="rounded"
                 count={totalPages}
                 page={page}
                 onChange={handlePageChange}
@@ -27,6 +32,7 @@ const PaginationDefault: React.FC<PaginationDefaultProps> = ({
                             previous: ArrowBackIcon,
                             next: ArrowForwardIcon,
                         }}
+                        
                         {...item}
                     />
                 )}

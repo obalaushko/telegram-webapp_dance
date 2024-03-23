@@ -3,7 +3,7 @@ interface User {
     fullName: string;
 }
 
-interface HistoryItem {
+export interface HistoryItem {
     action: string;
     oldValue: string;
     newValue: string;

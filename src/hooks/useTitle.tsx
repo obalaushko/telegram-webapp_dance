@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { TitleContext } from "../context/Context.ts";
+import { useContext, useEffect } from 'react';
+import { TitleContext } from '../context/Context.ts';
 
 export const useTitle = () => {
     const context = useContext(TitleContext);

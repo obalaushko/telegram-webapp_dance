@@ -45,3 +45,24 @@ export const fetchAllHistory = async ({
         throw new Error('Не вдалося завантажити історію');
     }
 };
+export const fetchHistoryByUserId = async ({
+    userId,
+    page,
+    pageSize,
+}: {
+    userId?: number;
+    page?: number;
+    pageSize?: number;
+}): Promise<HistoryResponse> => {
+    const response = await apiService.post('history-user', {
+        userId,
+        page,
+        pageSize,
+    });
+
+    if (response.ok) {
+        return response.data;
+    } else {
+        throw new Error('Не вдалося завантажити історію');
+    }
+};

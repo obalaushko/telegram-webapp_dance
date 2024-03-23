@@ -18,5 +18,12 @@ export default defineConfig({
             '@pages': path.resolve(__dirname, './src/pages'),
         },
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `@import "${path.resolve(__dirname, './src/style/constants.scss')}";`,
+            },
+        },
+    },
     plugins: [react(), basicSsl()],
 });
