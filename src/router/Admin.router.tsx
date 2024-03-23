@@ -15,7 +15,7 @@ const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
     const { tgUser } = useTelegram();
 
     if (!tgUser) {
-        // return <Navigate to={routes.notFound} />;
+        return <Navigate to={routes.notFound} />;
     }
 
     const {
@@ -33,7 +33,7 @@ const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
     }, [error]);
 
     if (!isLoading && !admin) {
-        // return <Navigate to={routes.notFound} />;
+        return <Navigate to={routes.notFound} />;
     }
 
     return children;
