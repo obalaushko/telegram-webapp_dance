@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { FC, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { routes } from './routes.ts';
@@ -13,10 +14,14 @@ interface AuthCheckerProps {
 const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
     const { tgUser } = useTelegram();
 
+    if (!tgUser) {
+        // return <Navigate to={routes.notFound} />;
+    }
+
     const {
         data: admin,
-        isLoading,
         error,
+        isLoading,
     } = useQuery({
         queryKey: ['admin', tgUser?.id],
         queryFn: () => checkUser(tgUser?.id || 0),
@@ -28,7 +33,7 @@ const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
     }, [error]);
 
     if (!isLoading && !admin) {
-        return <Navigate to={routes.notFound} />;
+        // return <Navigate to={routes.notFound} />;
     }
 
     return children;

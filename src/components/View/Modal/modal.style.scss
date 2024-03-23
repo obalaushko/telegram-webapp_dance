@@ -1,0 +1,9 @@
+.modal-dialog {
+    &__content {
+        background: $bg_color;
+        color: $text_color;
+    }
+    &__actions {
+        background: $bg_color;
+    }
+}

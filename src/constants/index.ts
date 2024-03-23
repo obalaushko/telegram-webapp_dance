@@ -1,55 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const BOT_URL = import.meta.env.VITE_BOT_URL;
 
-export interface ISubscription {
-    active: boolean;
-    dateExpired: Date | string;
-    totalLessons: number;
-    usedLessons: number;
-}
+export const PAGE_TITLE = Object.freeze({
+    settings: 'Налаштування',
+    history: 'Історія відвідувань',
+    scanner: 'Сканер абонементів',
+    about: 'Загальна інформація',
+    user: (id: string) => `Користувач ${id}`,
+    notFound: '404',
+});
 
-export interface IUser {
-    userId: number;
-    role?: string;
-    username?: string;
-    firstName?: string;
-    subscription?: ISubscription;
-    fullName?: string;
-    approved?: boolean;
-    notifications?: boolean;
-}
-
-export interface IUpdateUser {
-    userId: number;
-    role?: string;
-    firstName?: string;
-    fullName?: string;
-    notifications?: boolean;
-    dateExpired?: Date | string;
-    totalLessons?: number;
-    usedLessons?: number;
-    [key: string]: any;
-}
-
-export interface IWebData {
-    userId: number | undefined;
-    userIds: number[];
-    quaryId: string | undefined;
-}
-
-export type ApiResponse = SuccessResponse | ErrorResponse;
-
-export type SuccessResponse = {
-    status: 'success';
-    ok: boolean;
-    message?: string;
-    data?: any;
-};
-
-export type ErrorResponse = {
-    status: 'error';
-    ok: boolean;
-    message: string;
-    data?: any;
-    error: any;
-};
+export const actionsHistory = Object.freeze({
+    create: 'Створення аккаунту',
+    remove: 'Видалення аккаунту',
+    approveUser: 'Підтвердження користувача',
+    markUser: 'Відмічено на занятті',
+    updateTotalLessons: 'Оновлення кількості занять',
+    updateDateExpired: 'Оновлення дати закінчення',
+    updateUsedLessons: 'Оновлення кількості використаних занять',
+    freezeSubscription: 'Заморозка абонементу',
+    defrostSubscription: 'Розморозка абонементу',
+    activateSubscription: 'Активація абонементу',
+    deactivateSubscription: 'Деактивація абонементу',
+    dateExpired: 'Закінчення терміну дії абонементу',
+    changeName: 'Зміна імені',
+    updateNotification: 'Оновлення налаштувань сповіщень',
+    moveToInactive: 'Переміщення в неактивні користувачі',
+    moveToActive: 'Переміщення в активні користувачі',
+});

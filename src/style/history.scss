@@ -1,2 +1,60 @@
 .history {
+    &__accordion {
+        background: $bg_color;
+    }
+    &__accordion-summary {
+        background: $section_bg_color;
+    }
+
+    &__table-container {
+        background: $section_bg_color;
+
+        th {
+            color: $section_header_text_color;
+            padding: 5px;
+        }
+    }
+
+    &__table-body {
+        tr {
+            &.open {
+                td {
+                    border-color: $accent_text_color;
+                    color: $accent_text_color;
+                }
+            }
+        }
+        td {
+            color: $text_color;
+            padding: 10px 0;
+        }
+    }
+
+    &__additional-info {
+        width: 100%;
+
+        div {
+            color: $text_color;
+            display: inline-block;
+            white-space: nowrap;
+            width: 100%;
+
+            span {
+                font-style: italic;
+            }
+        }
+        p {
+            display: inline;
+            color: $text_color;
+            white-space: nowrap;
+        }
+    }
+
+    &__pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0 !important;
+        width: 100%;
+    }
 }

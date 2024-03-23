@@ -1,9 +1,8 @@
-import { createContext, useContext } from 'react';
+import { Dispatch, SetStateAction, createContext } from 'react';
 
-// Створити контекст
-export const UserContext = createContext(null);
+interface ITitleContext {
+    title: string;
+    setTitle: Dispatch<SetStateAction<string>>;
+}
 
-// Хук для використання контексту користувача
-export const useUser = () => {
-    return useContext(UserContext);
-};
+export const TitleContext = createContext<ITitleContext | undefined>(undefined);

@@ -1,6 +1,5 @@
 import { FC, useCallback } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { IUpdateUser, IUser } from '../../constants/index.ts';
 import {
     Box,
     Button,
@@ -31,6 +30,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateUserData } from '../../api/services/post.api.ts';
 import { toast } from 'react-toastify';
+import { IUpdateUser, IUser } from '@/constants/types.ts';
 
 type Inputs = {
     fullName: string;
