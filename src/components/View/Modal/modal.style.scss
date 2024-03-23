@@ -1,4 +1,7 @@
 .modal-dialog {
+    .MuiDialog-paper {
+        background: none;
+    }
     &__content {
         background: $bg_color;
         color: $text_color;
