@@ -62,7 +62,7 @@ const HistoryPage: React.FC = () => {
         isLoading,
     } = useQuery({
         queryKey: ['history', 'all', page],
-        queryFn: () => fetchAllHistory({ page }),
+        queryFn: () => fetchAllHistory({ page, pageSize: 10 }),
     });
 
     const handlePageChange = (
