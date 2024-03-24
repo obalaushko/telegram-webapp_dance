@@ -76,8 +76,9 @@ const HistoryUser: React.FC<HistoryUserProps> = () => {
         error,
         isLoading,
     } = useQuery({
-        queryKey: ['history', tgUser?.id],
-        queryFn: () => fetchHistoryByUserId({ userId: tgUser?.id }),
+        queryKey: ['history', tgUser?.id, page],
+        queryFn: () =>
+            fetchHistoryByUserId({ userId: tgUser?.id, page, pageSize: 10 }),
         enabled: !!tgUser?.id,
     });
 
