@@ -23,9 +23,9 @@ const UserPage = lazy(() => import('@pages/admin/User.page.tsx'));
 const AboutPage = lazy(() =>
     delayLoadingPage(import('@pages/admin/About.page.tsx'))
 );
-const AboutUserPage = lazy(() =>
-    delayLoadingPage(import('@pages/user/AboutUser.page.tsx'))
-);
+// const AboutUserPage = lazy(() =>
+//     delayLoadingPage(import('@pages/user/AboutUser.page.tsx'))
+// );
 const HistoryUserPage = lazy(() =>
     delayLoadingPage(import('@pages/user/HistoryUser.page.tsx'))
 );
@@ -69,11 +69,11 @@ const AppRouter = () => {
                     {/* Without Auth */}
                     <Route path={routes.notFound} element={<NotFoundPage />} />
                     <Route path={routes.user.root} element={<LayoutUser />}>
-                        <Route
+                        {/* <Route
                             path={routes.user.about}
                             index
                             element={<AboutUserPage />}
-                        />
+                        /> */}
                         <Route
                             path={routes.user.history}
                             element={<HistoryUserPage />}
