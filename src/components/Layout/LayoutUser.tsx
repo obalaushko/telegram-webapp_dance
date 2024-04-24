@@ -4,7 +4,7 @@ import { useTitle } from '@/hooks/useTitle.tsx';
 import Navbar from '../Navbar.tsx';
 import { routes } from '@/router/routes.ts';
 import HistoryIcon from '@mui/icons-material/History';
-import InfoIcon from '@mui/icons-material/Info';
+// import InfoIcon from '@mui/icons-material/Info';
 
 interface LayoutUserProps {
     // Define props here
@@ -20,7 +20,7 @@ const LayoutUser: React.FC<LayoutUserProps> = () => {
                 <span>{title}</span>
             </header>
             <Navbar>
-                <li className="navbar__list-item">
+                {/* <li className="navbar__list-item">
                     <NavLink
                         className={({ isActive }) =>
                             isActive ? 'active navbar__link' : 'navbar__link'
@@ -29,7 +29,7 @@ const LayoutUser: React.FC<LayoutUserProps> = () => {
                     >
                         <InfoIcon />
                     </NavLink>
-                </li>
+                </li> */}
                 <li className="navbar__list-item">
                     <NavLink
                         className={({ isActive }) =>

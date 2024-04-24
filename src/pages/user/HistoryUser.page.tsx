@@ -132,7 +132,7 @@ const HistoryUser: React.FC<HistoryUserProps> = () => {
                                                 <TableHead>
                                                     <TableRow>
                                                         <TableCell>
-                                                            Action
+                                                            Події
                                                         </TableCell>
                                                     </TableRow>
                                                 </TableHead>
@@ -154,11 +154,9 @@ const HistoryUser: React.FC<HistoryUserProps> = () => {
                                                                     }
                                                                 >
                                                                     <TableCell>
-                                                                        <u>
-                                                                            {
-                                                                                item.action
-                                                                            }
-                                                                        </u>
+                                                                        {
+                                                                            item.action
+                                                                        }
                                                                     </TableCell>
                                                                 </TableRow>
                                                             )
