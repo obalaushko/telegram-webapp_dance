@@ -30,3 +30,12 @@ export const checkUser = async (userId: number) => {
         throw new Error('Error checking user');
     }
 };
+
+export const sendPaymentReminder = async (userId: number) => {
+    const response = await apiService.post('payment-reminder', { userId });
+    if (response.ok) {
+        return response.data;
+    } else {
+        throw new Error('Error sending payment reminder');
+    }
+};

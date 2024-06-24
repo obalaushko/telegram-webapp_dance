@@ -45,6 +45,10 @@ const theme = createTheme(
             error: {
                 main: destructiveTextColor,
             },
+            background: {
+                default: bgColor,
+                paper: secondaryBgColor,
+            },
         },
         typography: {
             body1: {},
