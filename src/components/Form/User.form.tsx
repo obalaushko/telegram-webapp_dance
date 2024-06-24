@@ -31,6 +31,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateUserData } from '../../api/services/post.api.ts';
 import { toast } from 'react-toastify';
 import { IUpdateUser, IUser } from '@/constants/types.ts';
+import PaymentReminder from './PaymentNotify.tsx';
 
 type Inputs = {
     fullName: string;
@@ -161,6 +162,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
 
     return (
         <div className="user-form">
+            <PaymentReminder userId={userId} fullName={fullName || ''} />
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}

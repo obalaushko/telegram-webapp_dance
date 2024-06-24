@@ -57,8 +57,8 @@ const UserPage: FC = () => {
                         </Button>
                         <Typography variant="caption">
                             {user && user?.username
-                                ? `@${user.username} | ${user.userId}`
-                                : user?.userId}
+                                ? `@${user.username}`
+                                : null }
                         </Typography>
                     </Box>
                     {user && <UserForm userInfo={user} />}
