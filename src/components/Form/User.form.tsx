@@ -49,6 +49,7 @@ type UserFormProps = {
 
 const UserForm: FC<UserFormProps> = ({ userInfo }) => {
     const { userId, fullName, role, notifications, subscription } = userInfo;
+    const isFreeze = subscription?.freeze.active || false;
 
     const queryClient = useQueryClient();
 
@@ -163,7 +164,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
     return (
         <div className="user-form">
             <PaymentReminder
-                disabled={isDirty || watch('active')}
+                disabled={isDirty || watch('active') || isFreeze}
                 userId={userId}
                 fullName={fullName || ''}
             />
@@ -261,6 +262,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                             <FormControlLabel
                                 control={
                                     <Switch
+                                        disabled={isFreeze}
                                         onChange={(event) =>
                                             onChangeSwitch(event, 'active')
                                         }
@@ -273,6 +275,17 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                     />
                 </Box>
                 <Box sx={{ padding: '0 10px' }}>
+                    {isFreeze && (
+                        <Typography
+                            variant="body1"
+                            sx={{ color: (theme) => theme.palette.error.main }}
+                        >
+                            Абонемент призупинено до{' '}
+                            {moment
+                                .utc(subscription?.freeze.frozenUntil)
+                                .format('DD.MM.YYYY')}
+                        </Typography>
+                    )}
                     <Controller
                         name="totalLessons"
                         control={control}
