@@ -28,9 +28,14 @@ const Transition = forwardRef(function Transition(
 type PaymentNotifyProps = {
     fullName: string;
     userId: number;
+    disabled: boolean;
 };
 
-const PaymentReminder: FC<PaymentNotifyProps> = ({ fullName, userId }) => {
+const PaymentReminder: FC<PaymentNotifyProps> = ({
+    fullName,
+    userId,
+    disabled,
+}) => {
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     const toggleModal = () => {
@@ -47,10 +52,8 @@ const PaymentReminder: FC<PaymentNotifyProps> = ({ fullName, userId }) => {
         onSuccess: () => {
             toast.success('Сповіщення надіслано!');
         },
-        onError: () => {
-            toast.error(
-                'Помилка надсилання сповіщення, увімкніть сповіщення і спробуйте ще раз!'
-            );
+        onError: (error) => {
+            toast.error(error.message);
         },
     });
 
@@ -111,6 +114,7 @@ const PaymentReminder: FC<PaymentNotifyProps> = ({ fullName, userId }) => {
                 color="warning"
                 size="medium"
                 onClick={toggleModal}
+                disabled={disabled}
             >
                 Сповістити про оплату
             </Button>

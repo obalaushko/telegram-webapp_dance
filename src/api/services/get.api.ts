@@ -14,8 +14,12 @@ export const fetchUserData = async (userId: number): Promise<IUser> => {
     }
 };
 
-export const fetchAllUsers = async (): Promise<IUser[]> => {
-    const response = await apiService.get('users');
+export const fetchAllUsers = async ({
+    adminId,
+}: {
+    adminId: number;
+}): Promise<IUser[]> => {
+    const response = await apiService.post('users', { userId: adminId });
 
     if (response.ok) {
         return response.data;

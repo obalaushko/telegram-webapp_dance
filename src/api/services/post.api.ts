@@ -36,6 +36,6 @@ export const sendPaymentReminder = async (userId: number) => {
     if (response.ok) {
         return response.data;
     } else {
-        throw new Error('Error sending payment reminder');
+        throw new Error(response.message);
     }
 };

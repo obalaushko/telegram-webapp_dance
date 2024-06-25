@@ -4,6 +4,13 @@ export interface ISubscription {
     dateExpired: Date | string;
     totalLessons: number;
     usedLessons: number;
+    freeze: {
+        lastDateFreeze: Date;
+        dateExpired: Date;
+        frozenUntil: Date;
+        active: boolean;
+        usedLessons: number;
+    };
 }
 
 export interface IUser {
