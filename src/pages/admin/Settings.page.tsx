@@ -11,15 +11,17 @@ import { toast } from 'react-toastify';
 import SkeletonSettingsPage from '../../components/Skeleton/SkeletonSettingsPage.tsx';
 import { useTitle } from '@/hooks/useTitle.tsx';
 import { PAGE_TITLE } from '@/constants/index.ts';
+import { useTelegram } from '@/hooks/useTelegram.tsx';
 
 const SettingsPage: FC = () => {
+    const { tgUser } = useTelegram();
     const {
         data: userList,
         error,
         isLoading,
     } = useQuery({
-        queryKey: ['users', 'all'],
-        queryFn: () => fetchAllUsers(),
+        queryKey: ['users', 'all', tgUser?.id],
+        queryFn: () => fetchAllUsers({ adminId: tgUser?.id || 0 }),
         staleTime: 1000 * 5,
     });
 
