@@ -162,7 +162,11 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
 
     return (
         <div className="user-form">
-            <PaymentReminder userId={userId} fullName={fullName || ''} />
+            <PaymentReminder
+                disabled={isDirty || watch('active')}
+                userId={userId}
+                fullName={fullName || ''}
+            />
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
