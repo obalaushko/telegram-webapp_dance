@@ -8,7 +8,7 @@ import { Button, List, ListItem } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllUsers } from '../../api/services/get.api.ts';
 import { toast } from 'react-toastify';
-import SkeletonSettingsPage from '../../components/Skeleton/SkeletonSettingsPage.tsx';
+import SkeletonUsersPage from '../../components/Skeleton/SkeletonUsersPage.tsx';
 import { useTitle } from '@/hooks/useTitle.tsx';
 import { PAGE_TITLE } from '@/constants/index.ts';
 import { useTelegram } from '@/hooks/useTelegram.tsx';
@@ -38,7 +38,7 @@ const UsersPage: FC = () => {
     return (
         <div className="users">
             {isLoading ? (
-                <SkeletonSettingsPage />
+                <SkeletonUsersPage />
             ) : (
                 <List className="users__list">
                     {userList &&
