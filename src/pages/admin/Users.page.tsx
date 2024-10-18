@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import '@style/settings.scss';
+import '@style/users.scss';
 import { Link } from 'react-router-dom';
 import { routes } from '../../router/routes.ts';
 
@@ -13,7 +13,7 @@ import { useTitle } from '@/hooks/useTitle.tsx';
 import { PAGE_TITLE } from '@/constants/index.ts';
 import { useTelegram } from '@/hooks/useTelegram.tsx';
 
-const SettingsPage: FC = () => {
+const UsersPage: FC = () => {
     const { tgUser } = useTelegram();
     const {
         data: userList,
@@ -32,11 +32,11 @@ const SettingsPage: FC = () => {
     const { setTitle } = useTitle();
 
     useEffect(() => {
-        setTitle(PAGE_TITLE.settings);
+        setTitle(PAGE_TITLE.users);
     }, [setTitle]);
 
     return (
-        <div className="settings">
+        <div className="users">
             {isLoading ? (
                 <SkeletonSettingsPage />
             ) : (
@@ -50,7 +50,7 @@ const SettingsPage: FC = () => {
                                 <Button fullWidth>
                                     <Link
                                         className="settings__link link"
-                                        to={routes.settings.user(userId)}
+                                        to={routes.users.user(userId)}
                                     >
                                         <span>{fullName}</span>
                                         <EditIcon fontSize="small" />
@@ -64,4 +64,4 @@ const SettingsPage: FC = () => {
     );
 };
 
-export default SettingsPage;
+export default UsersPage;
