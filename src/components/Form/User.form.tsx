@@ -3,12 +3,8 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import {
     Box,
     Button,
-    FormControl,
     FormControlLabel,
     FormHelperText,
-    InputLabel,
-    MenuItem,
-    Select,
     Slider,
     Switch,
     TextField,
@@ -16,7 +12,7 @@ import {
     Typography,
 } from '@mui/material';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
-import { sectionBgColor, textColor } from '../../theme/theme.ts';
+// import { sectionBgColor, textColor } from '../../theme/theme.ts';
 
 import './userForm.scss';
 
@@ -35,7 +31,6 @@ import PaymentReminder from './PaymentNotify.tsx';
 
 type Inputs = {
     fullName: string;
-    role: string;
     notifications: boolean;
     totalLessons: number;
     usedLessons: number;
@@ -48,7 +43,7 @@ type UserFormProps = {
 };
 
 const UserForm: FC<UserFormProps> = ({ userInfo }) => {
-    const { userId, fullName, role, notifications, subscription } = userInfo;
+    const { userId, fullName, notifications, subscription } = userInfo;
     const isFreeze = subscription?.freeze.active || false;
 
     const queryClient = useQueryClient();
@@ -64,7 +59,6 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
         defaultValues: {
             active: subscription?.active,
             fullName: fullName,
-            role: role,
             notifications: notifications,
             totalLessons: subscription?.totalLessons || 8,
             usedLessons: subscription?.usedLessons || 0,
@@ -131,7 +125,6 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
             reset({
                 active: newUserData.subscription?.active,
                 fullName: newUserData.fullName,
-                role: newUserData.role,
                 notifications: newUserData.notifications,
                 totalLessons: newUserData.subscription?.totalLessons || 8,
                 usedLessons: newUserData.subscription?.usedLessons || 0,
@@ -206,7 +199,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                         </>
                     )}
                 />
-                <Controller
+                {/* <Controller
                     name="role"
                     control={control}
                     render={({ field }) => (
@@ -233,7 +226,7 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
                             </Select>
                         </FormControl>
                     )}
-                />
+                /> */}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Controller
                         name="notifications"
