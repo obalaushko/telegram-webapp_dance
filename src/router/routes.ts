@@ -4,9 +4,9 @@ export const routes = {
     history: '/history',
     notFound: '*',
     about: '/about',
-    settings: {
-        root: '/settings',
-        userLink: '/settings/user/:id',
+    users: {
+        root: '/users',
+        userLink: '/users/user/:id',
         user: (id: number) => `user/${id}`,
     },
     user: {

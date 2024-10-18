@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { routes } from '@/router/routes.ts';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import SettingsIcon from '@mui/icons-material/Settings';
+import GroupsIcon from '@mui/icons-material/Groups';
 import HistoryIcon from '@mui/icons-material/History';
 import InfoIcon from '@mui/icons-material/Info';
 import { useEffect, useState } from 'react';
@@ -50,9 +50,9 @@ const Navbar = ({ children }: { children?: React.ReactNode }) => {
                                         ? 'active navbar__link'
                                         : 'navbar__link'
                                 }
-                                to={routes.settings.root}
+                                to={routes.users.root}
                             >
-                                <SettingsIcon />
+                                <GroupsIcon />
                             </NavLink>
                         </li>
                         <li className="navbar__list-item">

@@ -19,7 +19,7 @@ export interface IUser {
     username?: string;
     firstName?: string;
     subscription?: ISubscription;
-    fullName?: string;
+    fullName: string;
     approved?: boolean;
     notifications?: boolean;
 }

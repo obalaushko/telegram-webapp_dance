@@ -10,8 +10,8 @@ import LayoutUser from '@/components/Layout/LayoutUser.tsx';
 const ScannerPage = lazy(() =>
     delayLoadingPage(import('@pages/admin/Scanner.page.tsx'))
 );
-const SettingsPage = lazy(() =>
-    delayLoadingPage(import('@pages/admin/Settings.page.tsx'))
+const UsersPage = lazy(() =>
+    delayLoadingPage(import('@/pages/admin/Users.page.tsx'))
 );
 const HistoryPage = lazy(() =>
     delayLoadingPage(import('@pages/admin/HistoryPage/History.page.tsx'))
@@ -53,11 +53,11 @@ const AppRouter = () => {
                             element={<ScannerPage />}
                         />
                         <Route
-                            path={routes.settings.root}
-                            element={<SettingsPage />}
+                            path={routes.users.root}
+                            element={<UsersPage />}
                         />
                         <Route
-                            path={routes.settings.userLink}
+                            path={routes.users.userLink}
                             element={<UserPage />}
                         />
                         <Route

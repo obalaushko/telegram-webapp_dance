@@ -31,7 +31,7 @@ const UserPage: FC = () => {
     }, [error]);
 
     const handleBack = () => {
-        navigate(routes.settings.root);
+        navigate(routes.users.root);
     };
 
     const { setTitle } = useTitle();

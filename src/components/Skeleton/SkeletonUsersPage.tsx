@@ -1,6 +1,6 @@
 import { Skeleton, Stack } from '@mui/material';
 
-const SkeletonSettingsPage = () => {
+const SkeletonUsersPage = () => {
     return (
         <Stack spacing={2}>
             {Array.from({ length: 8 }).map((_, index) => (
@@ -16,4 +16,4 @@ const SkeletonSettingsPage = () => {
     );
 };
 
-export default SkeletonSettingsPage;
+export default SkeletonUsersPage;
