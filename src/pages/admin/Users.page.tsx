@@ -40,16 +40,16 @@ const UsersPage: FC = () => {
             {isLoading ? (
                 <SkeletonSettingsPage />
             ) : (
-                <List className="settings__list">
+                <List className="users__list">
                     {userList &&
                         userList.map(({ userId, fullName }) => (
                             <ListItem
                                 key={userId}
-                                className="settings__list-item"
+                                className="users__list-item"
                             >
                                 <Button fullWidth>
                                     <Link
-                                        className="settings__link link"
+                                        className="users__link link"
                                         to={routes.users.user(userId)}
                                     >
                                         <span>{fullName}</span>
