@@ -1,12 +1,8 @@
-
 import { IUpdateUser, IWebData } from '@/constants/types.ts';
-import { createApiService } from '../api.ts';
-
-
-const apiService = createApiService();
+import { getApiService } from '../api.ts';
 
 export const sendQrData = async (data: IWebData) => {
-    const response = await apiService.post('web-data', data);
+    const response = await getApiService().post('web-data', data);
 
     if (response.ok) {
         return response.data;
@@ -16,7 +12,7 @@ export const sendQrData = async (data: IWebData) => {
 };
 
 export const updateUserData = async (data: IUpdateUser) => {
-    const response = await apiService.post('user-update-data', data);
+    const response = await getApiService().post('user-update-data', data);
 
     if (response.ok) {
         return response.data;
@@ -26,7 +22,7 @@ export const updateUserData = async (data: IUpdateUser) => {
 };
 
 export const checkUser = async (userId: number) => {
-    const response = await apiService.post('admin-info', { userId });
+    const response = await getApiService().post('admin-info', { userId });
     if (response.ok) {
         return response.data;
     } else {
@@ -35,7 +31,7 @@ export const checkUser = async (userId: number) => {
 };
 
 export const sendPaymentReminder = async (userId: number) => {
-    const response = await apiService.post('payment-reminder', { userId });
+    const response = await getApiService().post('payment-reminder', { userId });
     if (response.ok) {
         return response.data;
     } else {

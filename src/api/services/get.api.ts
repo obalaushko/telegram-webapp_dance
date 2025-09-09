@@ -1,11 +1,9 @@
 import { IUser } from '@/constants/types.ts';
 import { HistoryResponse } from '@/pages/admin/HistoryPage/types.ts';
-import { createApiService } from '../api.ts';
-
-const apiService = createApiService();
+import { getApiService } from '../api.ts';
 
 export const fetchUserData = async (userId: number): Promise<IUser> => {
-    const response = await apiService.get('user-info', {
+    const response = await getApiService().get('user-info', {
         userId: userId,
     });
 
@@ -21,7 +19,7 @@ export const fetchAllUsers = async ({
 }: {
     adminId: number;
 }): Promise<IUser[]> => {
-    const response = await apiService.post('users', { userId: adminId });
+    const response = await getApiService().post('users', { userId: adminId });
 
     if (response.ok) {
         return response.data;
@@ -39,7 +37,7 @@ export const fetchAllHistory = async ({
     page?: number;
     pageSize?: number;
 }): Promise<HistoryResponse> => {
-    const response = await apiService.get('history-all', {
+    const response = await getApiService().get('history-all', {
         userId,
         page,
         pageSize,
@@ -60,7 +58,7 @@ export const fetchHistoryByUserId = async ({
     page?: number;
     pageSize?: number;
 }): Promise<HistoryResponse> => {
-    const response = await apiService.post('history-user', {
+    const response = await getApiService().post('history-user', {
         userId,
         page,
         pageSize,

@@ -79,6 +79,7 @@ const PaymentReminder: FC<PaymentNotifyProps> = ({
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText
+                        component="div"
                         sx={{ color: textColor }}
                         id="alert-dialog-slide-description"
                     >

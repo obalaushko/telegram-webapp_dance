@@ -14,7 +14,7 @@ interface AuthCheckerProps {
 
 const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
     const { tgUser, botId } = useTelegram();
-    
+
     if (botId) setBotId(botId);
 
     if (import.meta.env.DEV) return children;

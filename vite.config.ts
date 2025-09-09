@@ -5,9 +5,15 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    server: {
-        https: {
-            key: '', // Provide a valid key here
+     server: {
+        https: {},
+        proxy: {
+            '/api': {
+                target: 'https://telegrambot-homebalaushki.duckdns.org/host/test',
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
         },
     },
     resolve: {

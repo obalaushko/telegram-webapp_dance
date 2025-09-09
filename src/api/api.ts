@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { ApiResponse } from '@/constants/types.ts';
-import { BOT_API_MAP, DEFAULT_API } from './botMap.ts';
+import { BOT_API_MAP } from './botMap.ts';
 import { getBotId } from '@/shared/botContext.ts';
 import { BOT_URL } from '@/constants/index.ts';
 
@@ -44,11 +44,21 @@ class ApiService {
     }
 }
 
-/**
- * Creates an API instance for the specified botId (from initData.receiver.id)
- */
-export const createApiService = () => {
-    const botId = getBotId();
-    const baseUrl = BOT_URL + BOT_API_MAP[botId || ''] || DEFAULT_API;
-    return new ApiService(`${baseUrl}/api`);
+
+let apiService: ApiService | null = null;
+
+export const getApiService = (): ApiService => {
+    if (!apiService) {
+        const botId = getBotId();
+        const path = BOT_API_MAP[botId || ''];
+
+        if (!botId || !path) {
+            throw new Error(`[ApiService] Unknown or missing botId: ${botId}`);
+        }
+
+        const baseUrl = BOT_URL + path;
+        apiService = new ApiService(`${baseUrl}/api`);
+    }
+
+    return apiService;
 };
