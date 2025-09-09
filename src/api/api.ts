@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 
 import { ApiResponse } from '@/constants/types.ts';
 import { BOT_API_MAP } from './botMap.ts';
-import { getBotId } from '@/shared/botContext.ts';
 import { BOT_URL } from '@/constants/index.ts';
+import { telegram } from '@/shared/TelegramService.ts';
 
 export type RequestData = {
     userId?: number;
@@ -44,18 +44,22 @@ class ApiService {
     }
 }
 
-
 let apiService: ApiService | null = null;
 
 export const getApiService = (): ApiService => {
+    const botId = telegram.botId;
+
+    if (!botId) {
+        console.warn('[ApiService] Telegram botId is not ready yet');
+        throw new Error(`[ApiService] Unknown or missing botId: ${botId}`);
+    }
+
+    const path = BOT_API_MAP[botId];
+    if (!path) {
+        throw new Error(`[ApiService] No API path for botId: ${botId}`);
+    }
+
     if (!apiService) {
-        const botId = getBotId();
-        const path = BOT_API_MAP[botId || ''];
-
-        if (!botId || !path) {
-            throw new Error(`[ApiService] Unknown or missing botId: ${botId}`);
-        }
-
         const baseUrl = BOT_URL + path;
         apiService = new ApiService(`${baseUrl}/api`);
     }

@@ -39,7 +39,7 @@ export interface IUpdateUser {
 export interface IWebData {
     userId: number | undefined;
     userIds: number[];
-    quaryId: string | undefined;
+    queryId: string | null;
 }
 
 export type ApiResponse = SuccessResponse | ErrorResponse;
