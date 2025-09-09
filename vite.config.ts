@@ -5,7 +5,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-     server: {
+    server: {
         https: {},
         proxy: {
             '/api': {
@@ -30,6 +30,9 @@ export default defineConfig({
                 additionalData: `@import "${path.resolve(__dirname, './src/style/constants.scss')}";`,
             },
         },
+    },
+    build: {
+        sourcemap: true,
     },
     plugins: [react(), basicSsl()],
 });

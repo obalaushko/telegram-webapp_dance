@@ -1,51 +1,32 @@
-const tg = window.Telegram.WebApp;
+import { telegram } from '@/shared/TelegramService';
 
-/**
- * Custom hook for interacting with the Telegram API.
- * @returns An object containing various Telegram-related functions and data.
- */
 export function useTelegram() {
-    /**
-     * Handles the toggle button functionality.
-     * @param show - A boolean value indicating whether to show or hide the toggle button.
-     * @param text - Optional text to be displayed on the toggle button. If not provided, a default text will be used.
-     */
+    const tg = telegram.tgAPI;
+
     const onToggleButton = (show: boolean, text?: string) => {
-        if (show) {
-            if (!tg.MainButton.isVisible) {
-                tg.MainButton.setText(text ?? 'ВІДПРАВИТИ');
-                tg.MainButton.show();
-            }
+        if (show && !tg.MainButton.isVisible) {
+            tg.MainButton.setText(text ?? 'ВІДПРАВИТИ');
+            tg.MainButton.show();
         } else {
             tg.MainButton.hide();
         }
     };
 
-    /**
-     * Callback function to hide the QR scanner popup.
-     */
     const onHideQrScanner = () => {
         tg.closeScanQrPopup();
     };
 
-    /**
-     * Checks if the Telegram user is available.
-     * @returns {boolean} Returns true if the Telegram user is available, otherwise false.
-     */
-    const checkIsTGUser = tg.initDataUnsafe.user ? true : false;
-    const botId = new URLSearchParams(tg.initData).get('bot_id');
-
     return {
         tg,
-        botId,
+        botId: telegram.botId,
+        queryId: telegram.queryId,
+        tgUser: telegram.user,
+        checkIsTGUser: Boolean(telegram.user),
         expand: tg.expand,
         isExpanded: tg.isExpanded,
-        tgUser: tg.initDataUnsafe.user,
-        onToggleButton,
-        quaryId: tg.initDataUnsafe.query_id,
-        onHideQrScanner,
         showScanQrPopup: tg.showScanQrPopup,
         closeWebApp: tg.close,
-        checkIsTGUser: checkIsTGUser,
+        onToggleButton,
+        onHideQrScanner,
     };
 }

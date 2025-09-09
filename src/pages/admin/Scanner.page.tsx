@@ -20,7 +20,7 @@ const ScannerPage = () => {
         onHideQrScanner,
         closeWebApp,
         onToggleButton,
-        quaryId,
+        queryId,
         tgUser,
     } = useTelegram();
 
@@ -102,7 +102,7 @@ const ScannerPage = () => {
         const data = {
             userId: tgUser?.id,
             userIds: userList.map((user) => user.userId),
-            quaryId,
+            queryId,
         };
         mutate(data, {
             onSuccess: () => {
@@ -116,7 +116,7 @@ const ScannerPage = () => {
                 toast.error(error.message);
             },
         });
-    }, [userList, quaryId, closeWebApp, tgUser, mutate]);
+    }, [userList, queryId, closeWebApp, tgUser, mutate]);
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData);
