@@ -1,6 +1,9 @@
 
 import { IUpdateUser, IWebData } from '@/constants/types.ts';
-import apiService from '../api.ts';
+import { createApiService } from '../api.ts';
+
+
+const apiService = createApiService();
 
 export const sendQrData = async (data: IWebData) => {
     const response = await apiService.post('web-data', data);

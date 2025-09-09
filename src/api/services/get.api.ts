@@ -1,6 +1,8 @@
 import { IUser } from '@/constants/types.ts';
-import apiService from '../api.ts';
 import { HistoryResponse } from '@/pages/admin/HistoryPage/types.ts';
+import { createApiService } from '../api.ts';
+
+const apiService = createApiService();
 
 export const fetchUserData = async (userId: number): Promise<IUser> => {
     const response = await apiService.get('user-info', {
