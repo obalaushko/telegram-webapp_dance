@@ -6,13 +6,18 @@ import { useTelegram } from '../hooks/useTelegram.tsx';
 import { useQuery } from '@tanstack/react-query';
 import { checkUser } from '../api/services/post.api.ts';
 import { toast } from 'react-toastify';
+import { setBotId } from '@/shared/botContext.ts';
 
 interface AuthCheckerProps {
     children: React.ReactNode;
 }
 
 const AuthChecker: FC<AuthCheckerProps> = ({ children }) => {
-    const { tgUser } = useTelegram();
+    const { tgUser, botId } = useTelegram();
+
+    if (botId) setBotId(botId);
+
+    if (import.meta.env.DEV) return children;
 
     if (!tgUser) {
         return <Navigate to={routes.notFound} />;

@@ -1,35 +1,24 @@
-import { BOT_URL } from '@/constants/index.ts';
-import { ApiResponse } from '@/constants/types.ts';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+import { ApiResponse } from '@/constants/types.ts';
+import { BOT_API_MAP } from './botMap.ts';
+import { getBotId } from '@/shared/botContext.ts';
+import { BOT_URL } from '@/constants/index.ts';
+
 export type RequestData = {
-    userId: number | undefined;
+    userId?: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 };
 
-/**
- * Represents an API service for making HTTP requests.
- */
 class ApiService {
     private readonly baseUrl: string;
 
-    /**
-     * Creates an instance of ApiService.
-     * @param baseUrl - The base URL of the API.
-     */
     constructor(baseUrl: string) {
         this.baseUrl = baseUrl;
     }
 
-    /**
-     * Sends a GET request to the specified URL.
-     * @param url - The URL to send the request to.
-     * @param data - The request data (optional).
-     * @returns A promise that resolves to the API response.
-     * @throws An error if the request fails.
-     */
     async get(url: string, data?: RequestData): Promise<ApiResponse> {
         try {
             const response = await axios.get(`${this.baseUrl}/${url}`, {
@@ -43,13 +32,6 @@ class ApiService {
         }
     }
 
-    /**
-     * Sends a POST request to the specified URL.
-     * @param url - The URL to send the request to.
-     * @param data - The request data.
-     * @returns A promise that resolves to the API response.
-     * @throws An error if the request fails.
-     */
     async post(url: string, data: RequestData): Promise<ApiResponse> {
         try {
             const response = await axios.post(`${this.baseUrl}/${url}`, data);
@@ -62,6 +44,21 @@ class ApiService {
     }
 }
 
-const apiService = new ApiService(BOT_URL + '/api');
 
-export default apiService;
+let apiService: ApiService | null = null;
+
+export const getApiService = (): ApiService => {
+    if (!apiService) {
+        const botId = getBotId();
+        const path = BOT_API_MAP[botId || ''];
+
+        if (!botId || !path) {
+            throw new Error(`[ApiService] Unknown or missing botId: ${botId}`);
+        }
+
+        const baseUrl = BOT_URL + path;
+        apiService = new ApiService(`${baseUrl}/api`);
+    }
+
+    return apiService;
+};

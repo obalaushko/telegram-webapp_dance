@@ -33,9 +33,13 @@ export function useTelegram() {
      * @returns {boolean} Returns true if the Telegram user is available, otherwise false.
      */
     const checkIsTGUser = tg.initDataUnsafe.user ? true : false;
+    const botId = new URLSearchParams(tg.initData).get('bot_id');
 
     return {
         tg,
+        botId,
+        expand: tg.expand,
+        isExpanded: tg.isExpanded,
         tgUser: tg.initDataUnsafe.user,
         onToggleButton,
         quaryId: tg.initDataUnsafe.query_id,
