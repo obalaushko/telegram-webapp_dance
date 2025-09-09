@@ -117,9 +117,8 @@ const UserForm: FC<UserFormProps> = ({ userInfo }) => {
             queryClient.invalidateQueries(
                 {
                     queryKey: ['user-info', userId],
-                    refetchType: 'none',
-                },
-                newUserData
+                    refetchType: 'active',
+                }
             );
 
             reset({
