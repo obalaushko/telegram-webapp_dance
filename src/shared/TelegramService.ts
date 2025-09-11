@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 type TelegramUser = {
     id: number;
     username?: string;
@@ -27,6 +29,8 @@ class TelegramService {
     }
 
     get botId(): string | null {
+        console.log(this.ensureInitData().get('bot_id'))
+        toast.info(this.ensureInitData().get('bot_id'))
         return this.ensureInitData().get('bot_id') || this.getDevBotId();
     }
 

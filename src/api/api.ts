@@ -64,5 +64,7 @@ export const getApiService = (): ApiService => {
         apiService = new ApiService(`${baseUrl}/api`);
     }
 
+    console.log(botId)
+
     return apiService;
 };
