@@ -24,7 +24,7 @@ Sentry.init({
 });
 
 const user = telegram.user;
-const botId = telegram.botId;
+const startParam = telegram.startParam;
 
 if (user) {
     Sentry.setUser({
@@ -32,5 +32,7 @@ if (user) {
         username: user.username,
     });
 
-    Sentry.setTag('bot_id', botId ?? 'unknown');
+    if (startParam) {
+        Sentry.setTag('start_param', startParam);
+    }
 }
