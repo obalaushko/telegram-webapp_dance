@@ -2,7 +2,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { ApiResponse } from '@/constants/types.ts';
-import { DEFAULT_API } from '@/constants/index.ts';
 import { BOT_URL } from '@/constants/index.ts';
 import { telegram } from '@/shared/TelegramService.ts';
 
@@ -49,20 +48,15 @@ let apiService: ApiService | null = null;
 export const getApiService = (): ApiService => {
     const startPathOrUrl = telegram.startPath;
 
-    let resolvedBase = '';
+    if (!startPathOrUrl) {
+        throw new Error('[ApiService] Missing start_param. Cannot resolve API base URL');
+    }
 
-    if (startPathOrUrl) {
-        if (/^https?:\/\//i.test(startPathOrUrl)) {
-            resolvedBase = startPathOrUrl;
-        } else {
-            resolvedBase = `${BOT_URL}${startPathOrUrl}`;
-        }
+    let resolvedBase = '';
+    if (/^https?:\/\//i.test(startPathOrUrl)) {
+        resolvedBase = startPathOrUrl;
     } else {
-        const path = DEFAULT_API;
-        if (!path) {
-            throw new Error('[ApiService] No API path. Missing DEFAULT_API');
-        }
-        resolvedBase = `${BOT_URL}${path}`;
+        resolvedBase = `${BOT_URL}${startPathOrUrl}`;
     }
 
     if (!apiService) {
