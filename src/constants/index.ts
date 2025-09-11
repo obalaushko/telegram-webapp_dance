@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const BOT_URL = import.meta.env.VITE_BOT_URL;
+export const DEFAULT_API = import.meta.env.VITE_DEFAULT_API || '';
 
 export const PAGE_TITLE = Object.freeze({
     users: 'Учні',

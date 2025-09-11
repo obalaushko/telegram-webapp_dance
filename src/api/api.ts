@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { ApiResponse } from '@/constants/types.ts';
-import { DEFAULT_API } from './botMap.ts';
+import { DEFAULT_API } from '@/constants/index.ts';
 import { BOT_URL } from '@/constants/index.ts';
 import { telegram } from '@/shared/TelegramService.ts';
 
