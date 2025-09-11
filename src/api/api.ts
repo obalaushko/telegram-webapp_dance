@@ -48,16 +48,18 @@ let apiService: ApiService | null = null;
 export const getApiService = (): ApiService => {
     const startPathOrUrl = telegram.startPath;
 
+    // If service already created once during this session, reuse it regardless of current param
+    if (apiService) {
+        return apiService;
+    }
+
     if (!startPathOrUrl) {
         throw new Error('[ApiService] Missing start_param. Cannot resolve API base URL');
     }
 
-    let resolvedBase = '';
-    if (/^https?:\/\//i.test(startPathOrUrl)) {
-        resolvedBase = startPathOrUrl;
-    } else {
-        resolvedBase = `${BOT_URL}${startPathOrUrl}`;
-    }
+    const resolvedBase = /^https?:\/\//i.test(startPathOrUrl)
+        ? startPathOrUrl
+        : `${BOT_URL}${startPathOrUrl}`;
 
     if (!apiService) {
         apiService = new ApiService(`${resolvedBase}/api`);
