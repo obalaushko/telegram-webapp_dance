@@ -1,3 +1,5 @@
+ 
+
 type TelegramUser = {
     id: number;
     username?: string;
@@ -20,6 +22,43 @@ class TelegramService {
             this.initDataParams = new URLSearchParams(this.tg.initData);
         }
         return this.initDataParams || new URLSearchParams();
+    }
+
+    get startParam(): string | null {
+        const fromInitData = this.tg?.initDataUnsafe?.start_param;
+        if (fromInitData) return fromInitData;
+
+        const search = window.location?.search || '';
+        if (!search) return null;
+        const params = new URLSearchParams(search);
+        const fromQuery = params.get('tgWebAppStartParam');
+        return fromQuery || null;
+    }
+
+    /**
+     * Normalized path from start_param.
+     * Accepts values like "/host/dance" or "host/dance" and returns leading-slash path.
+     * If a full URL is provided, returns it unchanged.
+     */
+    get startPath(): string | null {
+        const raw = this.startParam;
+        if (!raw) return null;
+
+        let decoded = raw;
+        try {
+            decoded = decodeURIComponent(raw);
+        } catch {
+            // ignore decode errors; use raw
+        }
+
+        if (/^https?:\/\//i.test(decoded)) {
+            return decoded;
+        }
+
+        const trimmed = decoded.trim();
+        if (!trimmed) return null;
+
+        return trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
     }
 
     private getDevBotId(): string | null {

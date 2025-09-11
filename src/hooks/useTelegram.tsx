@@ -18,7 +18,6 @@ export function useTelegram() {
 
     return {
         tg,
-        botId: telegram.botId,
         queryId: telegram.queryId,
         tgUser: telegram.user,
         checkIsTGUser: Boolean(telegram.user),

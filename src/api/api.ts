@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { ApiResponse } from '@/constants/types.ts';
-import { BOT_API_MAP } from './botMap.ts';
+import { DEFAULT_API } from './botMap.ts';
 import { BOT_URL } from '@/constants/index.ts';
 import { telegram } from '@/shared/TelegramService.ts';
 
@@ -47,22 +47,28 @@ class ApiService {
 let apiService: ApiService | null = null;
 
 export const getApiService = (): ApiService => {
-    const botId = telegram.botId;
+    const startPathOrUrl = telegram.startPath;
 
-    if (!botId) {
-        console.warn('[ApiService] Telegram botId is not ready yet');
-        throw new Error(`[ApiService] Unknown or missing botId: ${botId}`);
-    }
+    let resolvedBase = '';
 
-    const path = BOT_API_MAP[botId];
-    if (!path) {
-        throw new Error(`[ApiService] No API path for botId: ${botId}`);
+    if (startPathOrUrl) {
+        if (/^https?:\/\//i.test(startPathOrUrl)) {
+            resolvedBase = startPathOrUrl;
+        } else {
+            resolvedBase = `${BOT_URL}${startPathOrUrl}`;
+        }
+    } else {
+        const path = DEFAULT_API;
+        if (!path) {
+            throw new Error('[ApiService] No API path. Missing DEFAULT_API');
+        }
+        resolvedBase = `${BOT_URL}${path}`;
     }
 
     if (!apiService) {
-        const baseUrl = BOT_URL + path;
-        apiService = new ApiService(`${baseUrl}/api`);
+        apiService = new ApiService(`${resolvedBase}/api`);
     }
+
 
     return apiService;
 };
