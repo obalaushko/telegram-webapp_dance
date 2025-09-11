@@ -44,20 +44,35 @@ class ApiService {
 }
 
 let apiService: ApiService | null = null;
+let apiBaseUrlCache: string | null = null;
 
 export const getApiService = (): ApiService => {
     const startPathOrUrl = telegram.startPath;
 
-    if (!startPathOrUrl) {
-        throw new Error('[ApiService] Missing start_param. Cannot resolve API base URL');
+    // If base URL is already resolved once, reuse it across page transitions
+    if (!apiBaseUrlCache) {
+        if (!startPathOrUrl) {
+            throw new Error('[ApiService] Missing start_param. Cannot resolve API base URL');
+        }
+
+        apiBaseUrlCache = /^https?:\/\//i.test(startPathOrUrl)
+            ? startPathOrUrl
+            : `${BOT_URL}${startPathOrUrl}`;
+        try {
+            sessionStorage.setItem('apiBaseUrl', apiBaseUrlCache);
+        } catch (e) {
+            void e;
+        }
     }
 
-    let resolvedBase = '';
-    if (/^https?:\/\//i.test(startPathOrUrl)) {
-        resolvedBase = startPathOrUrl;
-    } else {
-        resolvedBase = `${BOT_URL}${startPathOrUrl}`;
-    }
+    const resolvedBase = apiBaseUrlCache || (() => {
+        try {
+            return sessionStorage.getItem('apiBaseUrl') || '';
+        } catch (e) {
+            void e;
+            return '';
+        }
+    })();
 
     if (!apiService) {
         apiService = new ApiService(`${resolvedBase}/api`);
