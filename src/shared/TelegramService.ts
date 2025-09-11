@@ -16,6 +16,7 @@ class TelegramService {
 
     constructor() {
         this.tg = window.Telegram.WebApp;
+        this.initPersistedStartParam();
     }
 
     private ensureInitData(): URLSearchParams {
@@ -23,6 +24,47 @@ class TelegramService {
             this.initDataParams = new URLSearchParams(this.tg.initData);
         }
         return this.initDataParams || new URLSearchParams();
+    }
+
+    private initPersistedStartParam(): void {
+        // Prefer initDataUnsafe
+        const initDataParam = this.tg?.initDataUnsafe?.start_param || null;
+        if (initDataParam) {
+            this.cachedStartParam = initDataParam;
+            try {
+                sessionStorage.setItem('tgWebAppStartParam', initDataParam);
+                localStorage.setItem('tgWebAppStartParam', initDataParam);
+            } catch (e) {
+                void e;
+            }
+            return;
+        }
+
+        // Then URL
+        const search = window.location?.search || '';
+        if (search) {
+            const params = new URLSearchParams(search);
+            const fromQuery = params.get('tgWebAppStartParam');
+            if (fromQuery) {
+                this.cachedStartParam = fromQuery;
+                try {
+                    sessionStorage.setItem('tgWebAppStartParam', fromQuery);
+                    localStorage.setItem('tgWebAppStartParam', fromQuery);
+                } catch (e) {
+                    void e;
+                }
+                return;
+            }
+        }
+
+        // Finally storage
+        try {
+            const fromSession = sessionStorage.getItem('tgWebAppStartParam');
+            const fromLocal = localStorage.getItem('tgWebAppStartParam');
+            this.cachedStartParam = fromSession || fromLocal || null;
+        } catch (e) {
+            void e;
+        }
     }
 
     get startParam(): string | null {
